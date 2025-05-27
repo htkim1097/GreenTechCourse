@@ -109,7 +109,7 @@ def main():
 
         # 대분류(버거, 사이드, 음료) 선택
         elif progress == CATEGORY:
-            # 선택 아이템
+            # 선택 아이템 초기화
             selected_item = {"id": 0, "quantity": 0, "side_id": 0, "beverage_id": 0, "is_set": False, "large_size": False, "is_launch": False}
             # 맥모닝 시간대일 때
             if time(hour=4, minute=0) <= datetime.now().time() < time(hour=10, minute=30):
@@ -172,30 +172,32 @@ def main():
 
         # 사이드 메뉴 선택
         elif progress == SIDE_MENU:
-            is_set = False
-            if selected_item["id"] != 0:
-                is_set = True
-
             user_in = menu_print(TYPE_SIDE)
-            item_id = int(user_in) + (TYPE_SIDE * 100)
 
             # 이전으로
             if user_in == "0":
                 progress = CATEGORY
             # 메뉴 선택했을 때
             else:
+                if selected_item["is_set"]:
+                    selected_item["side_id"] = int(user_in) + (TYPE_SIDE * 100)
+                else:
+                    selected_item["id"] = int(user_in) + (TYPE_SIDE * 100)
                 progress = SELECTED
 
         # 음료 메뉴 선택
         elif progress == BEVERAGE_MENU:
             user_in = menu_print(TYPE_BEVERAGE)
-            item_id = int(user_in) + (TYPE_BEVERAGE * 100)
 
             # 이전으로
             if user_in == "0":
                 progress = CATEGORY
             # 메뉴 선택했을 때
             else:
+                if selected_item["is_set"]:
+                    selected_item["side_id"] = int(user_in) + (TYPE_BEVERAGE * 100)
+                else:
+                    selected_item["id"] = int(user_in) + (TYPE_BEVERAGE * 100)
                 progress = SELECTED
 
         # 세트 사이즈 선택
