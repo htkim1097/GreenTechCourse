@@ -1,3 +1,4 @@
+import random
 from datetime import datetime, time
 
 # 진행 단계
@@ -81,15 +82,15 @@ def kiosk_print(print_str:str, sep_line=True) -> str:
             print("\n잘못 입력하셨습니다.")
 
 def menu_print(category:int, timezone=0, burger_category="") -> str:
-    s = "메뉴를 선택해주세요\n소분류: \ta. 비프\tb. 치킨\tc. 불고기\td. 씨푸드\n\n\t0. 이전"
+    burger_category_str = ""
+    string = ""
 
     # 대분류(버거/사이드/음료)에 맞는 메뉴만 리스트에 담기
-    lst = list(menu.keys())
-
-    if category == TYPE_BURGER:
+    if category == TYPE_BURGER:     # 버거 메뉴
         if timezone == TIME_MORNING:       # 맥모닝
             lst = [i for i in list(menu.keys()) if str(i)[0] == str(category) and menu[i][3] == 2]
         else:     # 일반, 맥런치 시간대
+            burger_category_str = "\n소분류: \ta. 비프\tb. 치킨\tc. 불고기\td. 씨푸드"
             if burger_category != "":
                 lst = [i for i in list(menu.keys()) if str(i)[0] == str(category) and menu[i][3] != 2 and menu[i][4] == burger_category]
             else:
@@ -99,16 +100,26 @@ def menu_print(category:int, timezone=0, burger_category="") -> str:
             dis = 0
             if timezone == TIME_LAUNCH:     # 맥런치 시간에는 500원 할인
                 dis = 500
-            s += f"\n\t{i - (category * 100)}. {menu[i][0]}  세트 {menu[i][1] - dis}/ 단품 {menu[i][2] - dis}"
-    else:
-        for i in [i for i in list(menu.keys()) if str(i)[0] == str(category)]:
-            s += f"\n\t{i - (category * 100)}. {menu[i][0]}  {menu[i][1]}"
+            string += f"\n\t{i - (category * 100)}. {menu[i][0]}  세트 {menu[i][1] - dis}/ 단품 {menu[i][2] - dis}"
 
-    return kiosk_print(s)
+    else:       # 사이드, 음료 메뉴
+        for i in [i for i in list(menu.keys()) if str(i)[0] == str(category)]:
+            string += f"\n\t{i - (category * 100)}. {menu[i][0]}  {menu[i][1]}"
+
+    return kiosk_print("메뉴를 선택해주세요" + burger_category_str + "\n\n\t0. 이전" + string)
+
+def order_print(cart:dict, front_str:str):
+    print(front_str + "\n  이름" + " " * 10 + "가격" + " " * 10 + "수량")
+    total_price = 0
+
+    for k, v in cart.items():
+        print(f"  {k}. {menu.get(v["id"])[0]}           {v["quantity"]}           {int(v["price"]) * int(v["quantity"])}")
+        total_price += int(v["price"]) * int(v["quantity"])
+
+    print(f"\n합계: {total_price}")
 
 def main():
     progress = START                    # 진행 레벨(0:시작/1:식사장소/2:카테고리/3:사이드/4:음료/5:버거/6:소분류/7:단,세트/8:s_사이즈/9:s_사이드/10:s_음료/11:선택내용/12:장바구니/13:결제)
-    eat_place = ""                      # 0:매장/1:포장
     now_timezone = TIME_NORMAL          # 0:일반/1:맥런치/2:맥모닝
     user_in = ""                        # 사용자 입력
     items_cart = {}                     # { 1:{item1}, 2:{item2} }
@@ -118,6 +129,9 @@ def main():
     while True:
         # 시작
         if progress == START:
+            # 초기화
+            items_cart = {}
+
             if kiosk_print("맥도날드에 오신 것을 환영합니다\n\t1. 주문하기") == "1":
                 progress = EAT_PLACE
 
@@ -127,25 +141,20 @@ def main():
             if user_in == "0":      # 이전으로
                 progress = START
             else:
-                eat_place = user_in  # 매장/포장
                 progress = CATEGORY
 
         # 대분류(버거, 사이드, 음료) 선택
         elif progress == CATEGORY:
             # 선택 아이템 초기화
-            selected_item = {"id": 0, "quantity": 1, "side_id": 0, "beverage_id": 0, "is_set": False, "large_size": False, "is_launch": False, "price": 0}
-            # 맥모닝 시간대일 때
-            if time(hour=4, minute=0) <= datetime.now().time() < time(hour=10, minute=30):
+            selected_item = {"id": 0, "quantity": 1, "side_id": 0, "beverage_id": 0, "is_set": False, "large_size": False, "price": 0}
+
+            if time(hour=4, minute=0) <= datetime.now().time() < time(hour=10, minute=30):      # 맥모닝 시간대일 때
                 now_timezone = TIME_MORNING
                 user_in = kiosk_print("카테고리를 선택해주세요\n\t0. 이전\n\t1. 맥모닝\n\t2. 사이드\n\t3. 음료\n\t4. 장바구니")
-
-            # 맥런치 시간대일 때
-            elif time(hour=10, minute=30) <= datetime.now().time() < time(hour=14, minute=0):
+            elif time(hour=10, minute=30) <= datetime.now().time() < time(hour=14, minute=0):   # 맥런치 시간대일 때
                 now_timezone = TIME_LAUNCH
                 user_in = kiosk_print("카테고리를 선택해주세요\n\t0. 이전\n\t1. 맥런치\n\t2. 사이드\n\t3. 음료\n\t4. 장바구니")
-
-            # 그 외 시간대일 때
-            else:
+            else:                                                                               # 그 외 시간대일 때
                 now_timezone = TIME_NORMAL
                 user_in = kiosk_print("카테고리를 선택해주세요\n\t0. 이전\n\t1. 버거\n\t2. 사이드\n\t3. 음료\n\t4. 장바구니")
 
@@ -245,105 +254,97 @@ def main():
         # 선택된 메뉴를 확인
         elif progress == SELECTED:
             print("선택하신 메뉴 \n\n", "  이름", " "*10, "가격")
+            price = 0
 
-            item_id = selected_item["id"]
-            if str(item_id)[0] == TYPE_BURGER:
-                # !!! 세트메뉴 구성, 맥런치에 따른 가격 계산 구현하기 !!!
-                print(f"  - {menu.get(item_id)[0]}", " "*10, f"{menu.get(item_id)[1 if selected_item["is_set"] else 2]}")
+            # 버거 메뉴일 때
+            if str(selected_item["id"])[0] == str(TYPE_BURGER):
+                if selected_item["is_set"]:
+                    price += menu.get(selected_item["id"])[1]       # 세트 가격
+                    price += menu.get(selected_item["side_id"])[1] - menu.get(202)[1]   # 선택한 사이드 - 감튀
+                    price += menu.get(selected_item["beverage_id"])[1] - menu.get(305)[1]   # 선택한 음료 - 콜라
+                    price += -500 if now_timezone == TIME_LAUNCH and menu.get(selected_item["id"])[3] == 1 else 0     # 런치는 -500원
+                    price += 700 if selected_item["large_size"] else 0      # 라지 사이즈는 +700원
+                else:
+                    price += menu.get(selected_item["id"])[2]       # 단품 가격
+                    price += -500 if now_timezone == TIME_LAUNCH and menu.get(selected_item["id"])[3] == 1 else 0  # 런치는 -500원
             else:
-                print(f"  - {menu.get(item_id)[0]}", " "*10, f"{menu.get(item_id)[1]}")
+                price = menu.get(selected_item["id"])[1]
+
+            selected_item["price"] = price
+            print(f"  - {menu.get(selected_item["id"])[0]}", " "*10, f"{price}")
 
             user_in = kiosk_print("\n\t0. 이전\n\t1. 장바구니에 담기", sep_line=False)
 
             if user_in == "0":
                 progress = prev_progress
             elif user_in == "1":
+                if selected_item is not None:
+                    main_id = selected_item["id"]
+                    side_id = selected_item["side_id"]
+                    bvg_id = selected_item["beverage_id"]
+                    flag = True
+
+                    # 중복 체크
+                    for i in items_cart:
+                        if items_cart[i]["id"] == main_id and items_cart[i]["side_id"] == side_id and items_cart[i]["beverage_id"] == bvg_id:
+                            items_cart[i]["quantity"] += 1
+                            flag = False
+                    # 동일한 음식이 없으면 새로 추가
+                    if flag:
+                        # 장바구니용 ID 생성
+                        n_id = min([i for i in range(1, 99) if i not in list(items_cart.keys())])
+
+                        if n_id is not None:
+                            items_cart[n_id] = selected_item
+                        else:
+                            print("ID 오류")
                 progress = CART
 
         # 장바구니
         elif progress == CART:
-            # 중복체크
-            # id, side_id, be_id 모두 같으면 수량만 올리기
-            # 없으면 새로 추가
-
-            # 선택한 아이템을 장바구니에 넣는다.
-            n_id = min([i for i in range(1, 99) if i not in [items_cart.keys()]])
-
-            if n_id is not None:
-                items_cart[n_id] = selected_item
-            else:
-                print("ID 오류")
-
-            # 현재 장바구니 출력
-            print("장바구니 \n\n", "  이름", " "*10, "가격", " "*10, "수량")
-
-            # 가격 구하기 1) 메뉴를 고를 때마다 계산, 2) 마지막에 한 번에 계산
-
-            for k, v in items_cart.items():
-                print(f"  {k}. {menu.get(v["id"])[0]}               {v["price"]}               {v["quantity"]}")
-
+            order_print(items_cart, "장바구니 \n\n")
             user_in = kiosk_print("\n\t0. 카테고리\n\t1. 수량 수정\n\t2. 결제", sep_line=False)
 
             # 카테고리로 이동
             if user_in == "0":
                 progress = CATEGORY
-
-            # 수량 설정
-            elif user_in == "1":
-                idx = 0
-                while True:
-                    idx = input("수량을 수정할 품목의 번호를 입력해주세요> ")
-                    if idx.isdigit() and (0 < int(idx) <= len(items_cart)):
-                        break
-                    print("잘못 입력하셨습니다.")
-
-                while True:
-                    num = input("수량을 입력해주세요> ")
-                    if num.isdigit() and int(num) >= 0:
-                        break
-                    print("잘못 입력하셨습니다.")
-
-                if num == "0":  # 삭제
-                    del items_cart[idx] if idx != 0 else print("삭제 오류")
-                    pass
-
-                else:       # 수량 수정
-                    pass
-
-            # 결제
-            elif user_in == "2":
+            else:
                 if len(items_cart) == 0:
-                    print("장바구니가 비었습니다. 구매할 음식을 추가해주세요.\n")
-                else:
+                    print("장바구니가 비었습니다.\n")
+
+                # 수량 설정
+                if user_in == "1":
+                    idx = 0
+                    while True:
+                        idx = input("수량을 수정할 품목의 번호를 입력해주세요> ")
+                        if idx.isdigit() and (0 < int(idx) <= len(items_cart)):
+                            break
+                        print("잘못 입력하셨습니다.")
+
+                    while True:
+                        num = input("수량을 입력해주세요> ")
+                        if num.isdigit() and int(num) >= 0:
+                            break
+                        print("잘못 입력하셨습니다.")
+
+                    if num == "0":  # 삭제
+                        del items_cart[int(idx)]
+                    else:       # 수량 수정
+                        items_cart[int(idx)]["quantity"] = num
+                elif user_in == "2":        # 결제
                     progress = PAYMENT
 
+        # 결제하기
         elif progress == PAYMENT:
-            pass
+            # 카드, 현금
+            user_in = kiosk_print("결제 방식을 선택해주세요\n\t0. 이전\n\t1. 카드\n\t2. 현금")
+            if user_in == "0":      # 이전으로
+                progress = CART
+            else:
+                order_print(items_cart, "결제가 완료되었습니다.\n\n")
+                print(f"결제 방식: {("카드 1234 5678 0000 " + str(random.randrange(1000, 9999))) if user_in == "1" else "현금"}")
+                print(f"주문 번호: {datetime.now()}\n\n")
+                progress = START
 
 # Start~
 main()
-
-
-# TODO
-# 결제
-# 수량 설정
-# 가격 구하기
-# 장바구니에 추가된 아이템 중복체크
-# 리팩토링
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
