@@ -67,7 +67,7 @@ menu = {
 def kiosk_print(print_str:str, sep_line=True) -> str:
     valid_input_lst = []
     if sep_line:
-        print("=" * 30)
+        print("="*30)
     print(print_str)
     for i, s in enumerate(print_str):           # \t 뒤에 있는 문자를 유효 입력값으로 추가
         if s == '\t':
@@ -76,7 +76,7 @@ def kiosk_print(print_str:str, sep_line=True) -> str:
     while True:
         user_in = input("입력> ")
         if user_in in valid_input_lst:
-            print("="*30)
+            #print("="*30)
             return user_in
         else:
             print("\n잘못 입력하셨습니다.")
@@ -109,7 +109,8 @@ def menu_print(category:int, timezone=0, burger_category="") -> str:
     return kiosk_print("메뉴를 선택해주세요" + burger_category_str + "\n\n\t0. 이전" + string)
 
 def order_print(cart:dict, front_str:str):
-    print(front_str + "\n  이름" + " " * 10 + "가격" + " " * 10 + "수량")
+    print("=" * 30)
+    print(front_str + "\n  이름" + " " * 10 + "수량" + " " * 10 + "가격")
     total_price = 0
 
     for k, v in cart.items():
@@ -253,7 +254,7 @@ def main():
 
         # 선택된 메뉴를 확인
         elif progress == SELECTED:
-            print("선택하신 메뉴 \n\n", "  이름", " "*10, "가격")
+            print("="*30, "\n", "선택하신 메뉴 \n\n", "  이름", " "*10, "가격")
             price = 0
 
             # 버거 메뉴일 때
@@ -302,7 +303,7 @@ def main():
 
         # 장바구니
         elif progress == CART:
-            order_print(items_cart, "장바구니 \n\n")
+            order_print(items_cart, "장바구니\n")
             user_in = kiosk_print("\n\t0. 카테고리\n\t1. 수량 수정\n\t2. 결제", sep_line=False)
 
             # 카테고리로 이동
@@ -341,9 +342,9 @@ def main():
             if user_in == "0":      # 이전으로
                 progress = CART
             else:
-                order_print(items_cart, "결제가 완료되었습니다.\n\n")
+                order_print(items_cart, "결제가 완료되었습니다.\n")
                 print(f"결제 방식: {("카드 1234 5678 0000 " + str(random.randrange(1000, 9999))) if user_in == "1" else "현금"}")
-                print(f"주문 번호: {datetime.now()}\n\n")
+                print(f"주문 번호: {datetime.now()}")
                 progress = START
 
 # Start~
