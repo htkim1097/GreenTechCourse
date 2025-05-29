@@ -824,3 +824,36 @@ Spring,docker,tomcat 등 프로젝트에 사용되는 기술들의 구조.
 
 
 
+## 재귀함수
+: 자기 자신을 호출하는 함수.
+
+- for문을 사용해서 팩토리얼을 구하는 예제.
+```python
+def factorial(n):
+    output = 1
+    for i in range(1, n + 1):
+        output *= i
+
+    return output
+
+print(f"1!:", factorial(1))
+print(f"2!:", factorial(2))
+print(f"3!:", factorial(3))
+print(f"4!:", factorial(4))
+```
+- 재귀함수를 사용해서 팩토리얼을 구하는 예제.
+```python
+def factorial(n):
+    if n == 0:
+        return 1
+    else:
+        return n * factorial(n - 1)
+    
+print(f"1!:", factorial(1))
+print(f"2!:", factorial(2))
+print(f"3!:", factorial(3))
+print(f"4!:", factorial(4))
+```
+
+
+
