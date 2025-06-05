@@ -1,6 +1,17 @@
+"""
+
+"""
 import time
-import keyboard
 import os
+import sys
+import subprocess
+
+try:
+    import keyboard
+except:
+    subprocess.check_call([sys.executable,'-m', 'pip', 'install', '--upgrade', 'pip'])
+    subprocess.check_call([sys.executable,'-m', 'pip', 'install', '--upgrade', 'keyboard'])
+    import keyboard
 
 os.system("mode con: cols=17 lines=9")
 coffee_art = r"""
@@ -36,16 +47,10 @@ def main():
 
         total_remain_sec = end_total_sec - now_time_to_sec
 
-# 10000
-        # 10000 // 3600 = 2
-        # 2800 // 60 = 40
-        #
-
         remain_hour = total_remain_sec // 3600
         remain_min = (total_remain_sec - (3600 * remain_hour)) // 60
-        remain_sec = (total_remain_sec - (remain_min * 60))
 
-        print(f"\r {remain_hour}:{remain_min}:{remain_sec}", end=' ', flush=True)
+        print(f"\r {remain_hour}:{remain_min}", end=' ', flush=True)
 
         time.sleep(1)
         cnt += 1

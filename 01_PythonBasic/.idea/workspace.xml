@@ -49,8 +49,10 @@
   "keyToString": {
     "ASKED_SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "ModuleVcsDetector.initialDetectionPerformed": "true",
+    "Python.WhenIEndex.executor": "Run",
     "Python.ex250516.executor": "Run",
     "Python.ex250604.executor": "Debug",
+    "Python.ex250605.executor": "Run",
     "Python.ex_250516.executor": "Run",
     "Python.ex_250519.executor": "Run",
     "Python.ex_250520.executor": "Run",
@@ -62,9 +64,11 @@
     "Python.ex_250530.executor": "Run",
     "Python.ex_250602.executor": "Run",
     "Python.fdsf.executor": "Run",
+    "Python.main.executor": "Run",
     "Python.mcnal_kiosk.executor": "Run",
     "Python.monitor_coffee.executor": "Run",
     "Python.salary_calculation.executor": "Run",
+    "Python.top_food.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.git.unshallow": "true",
     "git-widget-placeholder": "main",
@@ -75,8 +79,8 @@
 }]]></component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
-      <recent name="C:\Workspace\01_PythonBasic\D012_250602" />
       <recent name="C:\Workspace\01_PythonBasic" />
+      <recent name="C:\Workspace\01_PythonBasic\D012_250602" />
     </key>
   </component>
   <component name="SharedIndexes">

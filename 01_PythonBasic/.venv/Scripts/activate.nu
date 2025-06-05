@@ -32,7 +32,7 @@ export-env {
       }
     }
 
-    let virtual_env = r#'C:\Users\301-22\Desktop\수업 정리\Day001\.venv'#
+    let virtual_env = r#'C:\Workspace\01_PythonBasic\.venv'#
     let bin = r#'Scripts'#
 
     let is_windows = ($nu.os-info.family) == 'windows'
