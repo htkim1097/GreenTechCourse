@@ -28,7 +28,6 @@
 를 출력한다.
 """
 
-import copy
 import os
 
 def cutting_number(num:int, num_digit=2) -> int:
