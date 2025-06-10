@@ -1,19 +1,57 @@
 import random
 
-# TODO 맵 클래스화 하기
-"""
-속성
-   - 맵 너비
-   - 맵 높이
-함수
-   - 숲 맵 만들기
-   - 연구소 맵 만들기
-"""
+# 게임 매니저
+#  - 이동 체크
+#  - 각 조의 속성, 메서드 호출만
+#  - 플레이어와 적 사이에서 통보
+#  - 메시지 출력
 
-class Map:
+# 맵
+#  - 맵 생성
+#  - 맵 코드 관리
 
+# 우선순위
+# 캐릭터
+# 몬스터
+# 아이템
+
+# TODO 맵 오브젝트 코드 정의
+
+class DisplayManager:
     def __init__(self):
-        pass
+        self.map_w = 0
+        self.map_h = 0
+        self.map = [[]]
+
+    def set_game(self, map_width, map_height):
+        self.map_w = map_width
+        self.map_h = map_height
+
+    def generate_forest_map(self):
+        self.map = [["🌲" for _ in range(self.map_w)] for _ in range(self.map_h)]
+
+    def display_map(self):
+        height = self.map_h + 2
+        width = self.map_w + 2
+
+        for h in range(height):
+            for w in range(width):
+                if h == 0 and w == 0:
+                    print('┏', end='')
+                elif h == 0 and w == width - 1:
+                    print('┓')
+                elif h == height - 1 and w == 0:
+                    print('┗', end='')
+                elif h == height - 1 and w == width - 1:
+                    print('┛')
+                elif h == 0 or h == height - 1:
+                    print('━━', end='')
+                elif w == 0:
+                    print('┃', end='')
+                elif w == width - 1:
+                    print('┃')
+                else:
+                    print(self.map[h-1][w-1], end='')
 
     def generate_maze_map(self, width=60, height=40):
         # 전부 숲으로 초기화
@@ -54,3 +92,6 @@ class Map:
         # 출력
         for row in grid:
             print("".join(row))
+
+    # TODO 메시지 디스플레이
+    # TODO 플레이어 상태 디스플레이
