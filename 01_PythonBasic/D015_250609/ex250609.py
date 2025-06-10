@@ -246,3 +246,10 @@ my_bag.items.append(charger)
 me = Person(my_bag)
 
 me.show_items()
+
+
+# 콘솔 게임
+# 사용자 입력을 tick 기준으로
+# 사용자가 움직여야 몬스터도 이동
+# tick manager -> 여러 클래스에 업데이트
+# 여러 클래스는 정보를 -> tick manager로 송신

@@ -50,6 +50,7 @@
     "ASKED_SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "ModuleVcsDetector.initialDetectionPerformed": "true",
     "Python.WhenIEndex.executor": "Run",
+    "Python.escape_game.executor": "Run",
     "Python.ex250516.executor": "Run",
     "Python.ex250604.executor": "Debug",
     "Python.ex250605.executor": "Run",
@@ -81,6 +82,7 @@
 }]]></component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Workspace\01_PythonBasic\D016_" />
       <recent name="C:\Workspace\01_PythonBasic" />
       <recent name="C:\Workspace\01_PythonBasic\D012_250602" />
     </key>
