@@ -1,0 +1,10 @@
+TORCH = 311 #횃불
+FLASHLIGHT = 312 #손전등
+POTION = 313 #회복약
+ARMOR1 = 314 #천갑옷
+ARMOR2 = 315 #가죽갑옷
+ARMOR3 = 316 #판금갑옷
+WARP = 317 #워프
+NOTHING = 318 #꽝
+VACCINE = 319 #치료제
+MY_KRY = 320 #연구소 키
