@@ -51,6 +51,8 @@
     "ModuleVcsDetector.initialDetectionPerformed": "true",
     "Python.DisplayManager.executor": "Run",
     "Python.Enemy.executor": "Run",
+    "Python.GameManager.executor": "Run",
+    "Python.Item.executor": "Run",
     "Python.Main.executor": "Run",
     "Python.WhenIEndex.executor": "Run",
     "Python.escape_game.executor": "Run",

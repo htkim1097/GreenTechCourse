@@ -1,20 +1,35 @@
 import random
-import MapObjectIDs as oid
-import MapManager as mm
+import MapObjectId as oid
+import MapManager
 
-class DisplayManager:
+class GameManager:
     def __init__(self):
         self.map_w = 0
         self.map_h = 0
-        self.player_loc = [0, 0]
         self.enemy_loc_lst = []
-        self.map_data = [[]]
         self.message_list = []
+        self.status_w = 70
+        self.status_h = 5
+        self.message_w = 70
+        self.message_h = 8
+        self.map_manager = MapManager.R_Map()
+        self.map_manager.generate()
+        self.map_data = self.map_manager.get_map_data()
+        print(self.map_data)
+        self.player_loc = self.map_manager.player_xy
+        self.goal_loc = self.map_manager.goal_xy
+
+    def move_obj(self, obj_id:int, dst:list) -> bool:
+        if self.check_move(obj_id, dst):
+            self.player_loc = dst
+            return True
+
+        return False
         
     def get_map(self):
         return self.map_data
 
-    def set_map_res(self, map_width, map_height):
+    def set_map_size(self, map_width, map_height):
         self.map_w = map_width
         self.map_h = map_height
 
@@ -25,7 +40,7 @@ class DisplayManager:
         for i in item_xy_lst:
             self.map_data[i[0]][i[1]] = oid.ITEM_BOX
 
-    def generate_forest_map(self):
+    def generate_forest_map(self, is_last=False):
         # self.map_data = [
         #     [101, 101, 101, 101, 201],
         #     [201, 201, 101, 101, 201],
@@ -41,7 +56,7 @@ class DisplayManager:
         room_max_size = 12  # 2x2 단위이므로 짝수로
         room_count = 15
 
-        map_data = [[oid.FOREST for _ in range(width)] for _ in range(height)]
+        map_data = [[oid.TREE for _ in range(width)] for _ in range(height)]
 
         rooms = []
         for _ in range(room_count):
@@ -108,7 +123,7 @@ class DisplayManager:
         #self.map_data = rpg_map.generate()
         pass
 
-    def check_move(self, obj_id:int, src:list, dst:list) -> bool:
+    def check_move(self, obj_id:int, dst:list) -> bool:
         if obj_id == oid.PLAYER:
             # 맵 바깥으로 이동이면 무시
             if dst[1] < 0 or dst[0] < 0 or self.map_h <= dst[1] or self.map_w <= dst[0]:
@@ -120,14 +135,7 @@ class DisplayManager:
 
         return False
 
-    def move_obj(self, obj_id:int, src:list, dst:list) -> bool:
-        if self.check_move(obj_id, src, dst):
-            self.player_loc = dst
-            return True
-
-        return False
-
-    # 연구소 맵 생성
+    # TODO 연구소 맵 생성
     def generate_lab_map(self):
         lab_map = []
 
@@ -158,34 +166,94 @@ class DisplayManager:
                     print('┃', end='')
                 elif w == width - 1:
                     print('┃')
+                # else:
+                #     sight_range = 5
+                #
+                #     for i in range(sight_range):
+                #         for j in range(sight_range):
+                #             pass
+                #
+                #
+                #
+                #     if self.player_loc[0] - sight_range + 3 <= w <= self.player_loc[0] + sight_range - 1 and \
+                #             self.player_loc[1] - sight_range + 3 <= h <= self.player_loc[1] + sight_range - 1:
+                #         self.render_map(self.map_data[h - 1][w - 1])
+                #
+                #         # 적 표시
+                #         for zombies in self.enemy_loc_lst:
+                #             for z in zombies:
+                #                 if h - 1 == z[1] and w - 1 == z[0]:
+                #                     print("\b\b🧟", end="")
+                #     else:
+                #         print("\033[32m  \033[0m", end='')
+                #
+                #     # 플레이어 표시
+                #     if h - 1 == self.player_loc[1] and w - 1 == self.player_loc[0]:
+                #         print("\b\b☹️", end="")
+
                 else:
                     self.render_map(self.map_data[h - 1][w - 1])
-                    
+
                     # 플레이어 표시
                     if h - 1 == self.player_loc[1] and w - 1 == self.player_loc[0]:
                         print("\b\b☹️", end="")
-                    
+
                     # 적 표시
                     for zombies in self.enemy_loc_lst:
                         for z in zombies:
-
                             if h - 1 == z[1] and w - 1 == z[0]:
                                 print("\b\b🧟", end="")
+
+
+                    
+                    # # 적 표시
+                    # for zombies in self.enemy_loc_lst:
+                    #     for z in zombies:
+                    #         if h - 1 == z[1] and w - 1 == z[0]:
+                    #             print("\b\b🧟", end="")
 
     def render_map(self, obj_id):
         if obj_id == oid.ROAD:
             print("  ", end="")
-        elif obj_id == oid.FOREST:
+        elif obj_id == oid.TREE:
             print("🌳", end="")
-        elif obj_id == oid.DOOR:
-            print("🚪", end="")
         elif obj_id == oid.ITEM_BOX:
             print("🎁", end="")
+        elif obj_id == oid.WATER:
+            print("🌊", end="")
+        elif obj_id == oid.MOUNTAIN:
+            print("⛰️", end="")
+        elif obj_id == oid.STONE:
+            print("🪨", end="")
+        elif obj_id == oid.SUN:
+            print("☀️", end="")
+        elif obj_id == oid.WALL:
+            print("🧱", end="")
+        elif obj_id == oid.DOOR:
+            print("🏁", end="")
+
+    def add_message(self, msg:str):
+        if len(self.message_list) == self.message_h:
+            self.message_list.remove(self.message_list[0])
+            self.message_list.append(msg)
+        else:
+            self.message_list.append(msg)
 
     # TODO 메시지 디스플레이
     def display_message(self):
-        print("출력되는 메시지")
+        print()
+
+        sep_line = "━━" * self.message_w
+        print(sep_line)
+        for msg in self.message_list:
+            print(msg)
 
     # TODO 플레이어 상태 디스플레이
-    def display_status(self):
-        pass
+    def display_status(self, name, hp, items, shield):
+        print(f"{name}")
+        print(f"HP: {hp}")
+        print(f"Shield: {shield}")
+        print("Items:")
+
+        for i in items:
+            print(f"{i}", end=" / ")

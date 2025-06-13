@@ -1,5 +1,4 @@
 import random
-import MapObjectIDs as oid
 
 # 상수 처리
 TORCH = 311
@@ -11,23 +10,60 @@ ARMOR3 = 316
 WARP = 317
 NOTHING = 318
 VACCINE = 319
-MY_KRY = 320
 
 # 아이템 클래스
 box_queue = [] # 🚩아이템 박스
+tick_c = 0
+res_dic = {}
+status1 = [] # 획득 아이템 나열
+
 class Item:
-    def __init__(self,id,name,effect):
-        self.id = id
-        self.name = name
-        self.effect = effect
-        self.item_box = {}
-    def type_change(self, value=0):
-        self.item_box[self.id] = []
-        self.item_box[self.id].append(self.name)
-        self.item_box[self.id].append(self.effect)
-        if value != 0:
-            self.item_box[self.id].append(value)
-        return self.item_box
+   def __init__(self,id,name,effect):
+       self.id = id
+       self.name = name
+       self.effect = effect
+       self.item_box = {}
+
+   def type_change(self, value):
+       self.item_box[self.id] = []
+       self.item_box[self.id].append(self.name)
+       self.item_box[self.id].append(self.effect)
+       self.item_box[self.id].append(value)
+       return self.item_box
+
+
+   @classmethod
+   def tick(cls,tick_count, event_code, map1, num): # map1 = 맵 내 가능한 위치
+       global tick_c
+       global res_dic
+       # tick 스택
+       tick_c += tick_count
+       # event_code = 0 아이템 생성, 1 None
+       if event_code == 0:
+           res_dic = {}
+           box_place = ran_map(map1, num)
+           for i in range(num):
+               res_dic[box_place[i]] = list(random_item().keys())
+           return res_dic
+       # 워프삭제
+       # elif event_code == 1:
+       #     return ran_map(map1,1)
+       else:
+           return None
+
+   @classmethod
+   def give_item(cls, xy):
+       tmp =[]
+       global status1
+       # print(res_dic[xy])
+       if res_dic.get(xy) is None:
+           return None
+       else:
+           for i in box_queue:
+               if list(i.keys()) == res_dic[xy]:
+                   tmp.append(i)
+       del res_dic[xy]
+       return tmp # [{316:[이름,효과,값]}]
 
 # 아이템 클래스 하위
 torch = Item(311,"횃불","시야 5x5로 상승")
@@ -38,67 +74,41 @@ armor2 = Item(315,"가죽갑옷","2회 방어 후 소멸")
 armor3 = Item(316,"판금갑옷","3회 방어 후 소멸")
 warp = Item(317,"워프","특정 구역 랜덤 이동")
 nothing = Item(318,"꽝","아무 것도 없음")
-vaccine = Item(319,"치료제","좀비 치료제")
-my_key = Item(320,"연구소 열쇠","연구소 출입 가능")
+vaccine = Item(319,"백신","좀비 치료제")
+box_queue.append(Item.type_change(vaccine,2000)) #0
+box_queue.append(Item.type_change(torch,10000)) #1
+box_queue.append(Item.type_change(flashlight,20000)) #2
+box_queue.append(Item.type_change(warp,100)) #3
+box_queue.append(Item.type_change(potion,10)) #4
+box_queue.append(Item.type_change(armor3,3)) #5
+box_queue.append(Item.type_change(armor2,2)) #6
+box_queue.append(Item.type_change(armor1,1)) #7
+box_queue.append(Item.type_change(nothing,0)) #8
 
-box_queue.append(Item.type_change(my_key)) #1
-box_queue.append(Item.type_change(torch)) #2
-box_queue.append(Item.type_change(flashlight)) #3
-box_queue.append(Item.type_change(warp)) #4
-box_queue.append(Item.type_change(potion)) #5
-box_queue.append(Item.type_change(armor3,value=3)) #6
-box_queue.append(Item.type_change(armor2,value=2)) #7
-box_queue.append(Item.type_change(armor1,value=1)) #8
-box_queue.append(Item.type_change(nothing)) #9
-box_queue.append(Item.type_change(vaccine)) #10
 
 # 확률에 따른 랜덤 아이템 생성
 def random_item() :
-    r = random.randrange(1, 101)
-    if r <= 5 : # 5%
-        return box_queue[1]
-    elif 5 < r <= 10 : # 5%
-        return box_queue[2]
-    elif 10 < r <= 20 : # 10%
-        return box_queue[3]
-    elif 20 < r <= 35 : # 15%
-        return box_queue[4]
-    elif 35 < r <= 45: # 10%
-        return box_queue[5]
-    elif 45 < r <= 60: # 15%
-        return box_queue[6]
-    elif 60 < r <= 80: # 20%
-        return box_queue[7]
-    else: # 100%
-        return box_queue[8]
+   r = random.randrange(1, 101)
+   if r <= 10 : # 10%
+       return box_queue[1]
+   elif 10 < r <= 20 : # 10%
+       return box_queue[2]
+   # 워프 삭제 / 리스트 상에는 존재
+   elif 20 < r <= 35 : # 15%
+       return box_queue[4]
+   elif 35 < r <= 45: # 10%
+       return box_queue[5]
+   elif 45 < r <= 60: # 15%
+       return box_queue[6]
+   elif 60 < r <= 80: # 20%
+       return box_queue[7]
+   else: # 100%
+       return box_queue[8]
 
-# 맵 내 랜덤 좌표 생성 / 워프 좌표
-def ran_map(map1,num): #num = 좌표 갯수
-    res = []
-    for i in range(len(map1)):
-        for j in range(len(map1[0])):
-            if map1[i][j] == oid.ROAD:
-                res.append((i,j))
-                random.shuffle(res)
-    return res[:num] # 인덱스 숫자 변경 가능
-
-# 아이템 랜덤위치 + 아이템 키값
-def ran_item(map1, num, is_forest=True, last_map=False) : # 맵, 갯수, 위치, 마지막맵 확인
-    box_place = ran_map(map1,num)
-    res_dic ={}
-
-    if last_map:
-        if is_forest:
-            res_dic[box_place[0]] = list(box_queue[0].keys())
-        else:
-            res_dic[box_place[0]] = list(box_queue[9].keys())
-
-        for i in range(num-1):
-            res_dic[box_place[i+1]]=list(random_item().keys())
-    else:
-        for i in range(num):
-            res_dic[box_place[i]]=list(random_item().keys())
-    return res_dic
-
-
-
+# 전체 맵 셔플 좌표 리턴
+def ran_map(map1, num): #num = 좌표 갯수
+   res = []
+   random.shuffle(map1)
+   for i in range(num):
+       res.append(map1[i])
+   return res[:num] # 인덱스 숫자 변경 가능

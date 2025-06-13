@@ -150,9 +150,9 @@ class R_Map:
             #중심 2x2 영역에 오브젝트 배치 (시작/도착지가 아니면)
             for dy in range(1):
                 for dx in range(1):
-                    if cy + dy != self.player_xy[1] and cx + dx != self.player_xy[0] and cy + dy != self.goal_xy[1] and cx + dx != self.goal_xy[0]:
+                    if self.map_data[cy + dy][cx + dx] not in (self.PLAYER, self.DOOR):
                         self.map_data[cy + dy][cx + dx] = obj1
-                    if co_y + dy != self.player_xy[1] and cx + dx != self.player_xy[0] and co_y + dy != self.goal_xy[1] and cx + dx != self.goal_xy[0]:
+                    if self.map_data[co_y + dy][cx + dx] not in (self.PLAYER, self.DOOR):
                         self.map_data[co_y + dy][cx + dx] = obj1
 
             # 방이 크면(면적 36 이상) 추가 오브젝트 배치
@@ -166,7 +166,7 @@ class R_Map:
                         obj2 = random.choice(self.CENTER_OBJECTS)
                         for dy in range(2):
                             for dx in range(2):
-                                if ry + dy != self.player_xy[1] and rx + dx != self.player_xy[0]:
+                                if self.map_data[ry + dy][rx + dx] not in (self.PLAYER, self.DOOR):
                                     self.map_data[ry + dy][rx + dx] = obj2
                         break
                     tries += 1
@@ -185,11 +185,12 @@ class R_Map:
         ex = self.rooms[-1][0] + (self.rooms[-1][2] // 2) // 2 * 2
         ey = self.rooms[-1][1] + (self.rooms[-1][3] // 2) // 2 * 2
 
-        self.map_data[sy][sx] = 101
+        self.map_data[sy][sx] = self.PLAYER
         self.map_data[ey][ex] = self.DOOR
 
         dist = math.sqrt((sx - ex) ** 2 + (sy - ey) ** 2)
         return dist, sy, sx, ey, ex
+
 
     def generate(self):
         self.place_rooms()
@@ -200,14 +201,16 @@ class R_Map:
             data = self.set_start_and_arrive()
             current_dist = data[0]
             if current_dist >= 20:
-                self.player_xy = [data[2], data[1]]
-                self.goal_xy = [data[4], data[3]]
+                self.player_xy = [data[1], data[2]]
+                self.goal_xy = [data[3], data[4]]
                 break
-
+            elif tries == max_tries:
+                pass
         self.place_center_objects()
 
     def get_map_data(self):
         return self.map_data
+
 
     def print_map(self):
         # 맵 데이터를 심볼로 변환해 출력
