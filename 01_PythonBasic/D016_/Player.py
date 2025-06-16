@@ -1,194 +1,172 @@
-status = 0  # 현재 상태
-item_status = []  # 가방(인벤토리) -> item_status
-
-
-from Item import Item, res_dic
+import Item
+import ItemIDs
+import random
 
 class Player:
-   player_list = []
-   tick_count = 0
-   inst = []
-   login = 0
-   @classmethod
-   # 캐릭터 생성 함수
-   def create(cls, obj):
-       Player.player_list.append(obj)
-       return obj
+    def __init__(self, name="", hp=3, pos=0):
+        self.__name = name
+        self.__pos = pos
+        self.__sight = {"item":0, "remain":0}
+        self.__max_hp = hp
+        self.__hp = hp
+        self.__armor = 0
+        self.__messages = []
+        self.is_pass = False
+
+    @property
+    def sight(self):
+        return self.__sight
+
+    @sight.setter
+    def sight(self, val):
+        self.__sight = val
+
+    @property
+    def name(self):
+        return self.__name
+
+    @name.setter
+    def name(self, val):
+        self.__name = val
+
+    @property
+    def pos(self):
+        return self.__pos
+
+    @pos.setter
+    def pos(self, val):
+        self.__pos = val
+
+    @property
+    def armor(self):
+        return self.__armor
+
+    @armor.setter
+    def armor(self, val):
+        self.__armor = val
+
+    @property
+    def hp(self):
+        return self.__hp
+
+    @hp.setter
+    def hp(self, val):
+        self.__hp = val
+
+    def get_player_info(self):
+        data = {
+            "name" : self.__name,
+            "pos" : self.__pos,
+            "sight" : self.__sight,
+            "hp" : self.__hp,
+            "armor" : self.__armor,
+            "message" : self.__messages,
+        }
+        self.__messages = []
+        return data
+
+    # 이동 함수
+    def move(self, input_key):
+        try:
+            if input_key == "w":
+                self.__pos[1] -= 1
+            elif input_key == "s":
+                self.__pos[1] += 1
+            elif input_key == "a":
+                self.__pos[0] -= 1
+            elif input_key == "d":
+                self.__pos[0] += 1
+        except: pass
+
+    def use_item(self, random_place):
+        item = Item.get_random_item()
+        item_id = item.id
+
+        if item_id == ItemIDs.PLATE_ARMOR:
+            self.__armor = 3
+            self.__messages.append("판금 갑옷을 획득했습니다.")
+
+        elif item_id == ItemIDs.LEATHER_ARMOR:
+            if self.__armor < 2:
+                self.__armor = 2
+                self.__messages.append("가죽 갑옷을 획득했습니다.")
+            else:
+                self.__messages.append("가죽 갑옷을 획득했지만, 기존 갑옷을 계속 착용합니다.")
+
+        elif item_id == ItemIDs.CLOTH_ARMOR:
+            if self.__armor < 1:
+                self.__armor = 1
+                self.__messages.append("천 갑옷을 획득했습니다.")
+            else:
+                self.__messages.append("천 갑옷을 획득했지만, 기존 갑옷을 계속 착용합니다.")
+
+        elif item_id == ItemIDs.POTION:
+            if self.__hp < self.__max_hp:
+                self.__hp += 1
+                self.__messages.append("회복약을 먹었습니다. 체력을 1 회복했습니다.")
+            else:
+                self.__messages.append("회복약을 먹었지만, 이미 체력이 최대입니다.")
+
+        elif item_id == ItemIDs.TORCH:
+            self.__sight["item"] = ItemIDs.TORCH
+            self.__sight["remain"] = 15
+            self.__messages.append("횃불을 획득했습니다.")
+
+        elif item_id == ItemIDs.FLASHLIGHT:
+            self.__sight["item"] = ItemIDs.FLASHLIGHT
+            self.__sight["remain"] = 15
+            self.__messages.append("손전등을 획득했습니다.")
+
+        elif item_id == ItemIDs.WARP:
+            self.__pos = random_place
+            self.is_pass = True
+            self.__messages.append("어딘가로 순간이동 됐습니다.")
+
+        elif item_id == ItemIDs.NOTHING:
+            self.__messages.append("빈 상자였습니다...")
+
+player_inst = Player()
+
+"""
+Player -> Main : name:str, pos:list, sight:int, hp:int, armor:int, messages:list
+Main -> Player : item:bool, damaged:int, name:str, init_pos:list, hp:int, input_key:str, pass:bool
+"""
+def tick(tick_cnt, data:dict):
+    global player_inst
+
+    if tick_cnt == 0:
+        player_inst = Player(data["name"], data["hp"], data["init_pos"])
+
+    # 시야 아이템 내구도 줄이기
+    if player_inst.sight["remain"] == 1:
+        player_inst.sight = {"item":0, "remain":0}
+    elif player_inst.sight["remain"] > 0:
+        player_inst.sight["remain"] -= 1
+
+    data_keys = data.keys()
+
+    # Pass
+    # if player_inst.is_pass:
+    #     player_inst.is_pass = False
+    #     return player_inst.get_player_info()
+
+    # 이동
+    if "input_key" in data_keys:
+        player_inst.move(data["input_key"])
+
+    # 아이템 획득
+    if "item" in data_keys and data["item"]:
+        r = random.choice(data["able_place"])
+        player_inst.use_item(r)
+
+    # 피해
+    if "damaged" in data_keys:
+        value = data["damaged"]
+
+        if player_inst.armor > 0:
+            player_inst.armor -= value
+        else:
+            player_inst.hp -= value
 
 
-   @classmethod
-   # 0. 생성 1.이동 2.이동 불가 3.아이템 획득
-   def tick(cls,event_code, data=dict):
-       global inst
-       global login
-
-
-       Player.tick_count += 1
-
-
-       if event_code == 0:  # 게임 시작 시점
-           inst = Player.create(Player(data["name"], x=data["x"], y=data["y"], hp=3))
-           login = 1
-       elif event_code == 9:
-           login = 0
-           print("게임이 종료되었습니다.")
-
-       if login == 1 and event_code == 1:
-           cls.move(inst, data["input_key"])
-       elif login == 1 and event_code == 2:
-           pass
-       elif login == 1 and event_code == 3:
-           cls.plus_status(inst, data["item_temp"])
-       elif login == 1 and event_code == 4:  # 몬스터 만난 상황 현재 미정
-           pass
-       return inst.get_status_dict() if login else {}
-
-   def __init__(self, name, hp=30, x=0, y=0):
-       self.name = name
-       self.x = x
-       self.y = y
-       self.inventory = []
-       self.sight = 10000
-       self.key = 0
-       self.warp = 0
-       self.hp = hp
-       self.protect = 0
-
-
-       # 상태 입력값 합 => status
-
-
-   def sum_status(self):
-       global status
-       status = self.sight + self.key + self.warp + self.hp + self.protect
-       return status
-
-   def get_status_dict(self):
-       return {
-           "name": self.name,
-           "x": self.x,
-           "y": self.y,
-           "sight": self.sight,
-           "key": self.key,
-           "warp": self.warp,
-           "hp": self.hp,
-           "protect": self.protect,
-           "status":status
-       }
-
-
-
-
-   def plus_status(self, item_data):
-       # [{상수값 : [이름,효과,value]}] => [[상수값,value],]
-       for h in item_data:
-           for i, j in h.items():
-               item_status.append([i, j[-1]])
-
-
-       # 리스트에 가장 최근에 담긴 아이템 확인 (역순으로 확인)
-       # 갑옷
-       if item_status[-1][0] == 316:
-           print(self.protect)
-           self.protect = 3
-           print(self.protect)
-
-
-       elif item_status[-1][0] == 315:
-           if str(status)[-1] == "0" or "1" or "2":
-               self.protect = 2
-
-
-       elif item_status[-1][0] == 314:
-           if str(self)[-1] == "0" or "1":
-               self.protect = 1
-
-
-       # 회복
-       elif item_status[-1][0] == 313:
-           self.drink_potion()
-           print(f"회복약을 먹었습니다.{self.hp}")
-
-
-       # # 워프 / 미 구현
-       # elif item_status[-1][0] == 317:
-       #     self.use_warp()
-       #     pass
-
-
-       # -- 시야 --
-       # 횃불
-       elif item_status[-1][0] == 311:
-           if str(status)[0] == "1" or "2":
-               self.sight = 20000
-
-
-       # 손전등
-       elif item_status[-1][0] == 312:
-           self.sight = 30000
-
-
-       # 꽝
-       elif item_status[-1][0] == 318:
-           pass
-
-
-       return self.sum_status()
-
-
-   # 이동 함수
-   def move(self, input_key):
-       # 1. 이동
-       if input_key == "w":
-           self.y -= 1
-       elif input_key == "s":
-           self.y += 1
-       elif input_key == "a":
-           self.x -= 1
-       elif input_key == "d":
-           self.x += 1
-
-
-       new_pos = (self.x, self.y)
-
-
-       item_data = Item.give_item(new_pos)
-
-
-       if item_data != None:
-           self.plus_status(item_data)
-       else:
-           print(item_data)
-
-
-
-
-
-
-
-
-   # 현재 위치 정보 반환
-   def my_position(self):
-       print(self.x, self.y)
-
-
-   # 인벤토리 목록을 보여줌
-   def inventory_check(self):
-       return self.inventory
-
-
-   # 인벤토리에 들어온 아이템을 추가 해줌
-   def inventory_save(self, item):
-       self.inventory.append(item)
-
-
-   # 포션을 마심
-   def drink_potion(self):
-       print(self.hp)
-       self.hp += 1
-
-
-   # 캐릭터의 체력 반환
-   def get_hp(self):
-       return self.hp
-
+    return player_inst.get_player_info()

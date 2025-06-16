@@ -5,6 +5,7 @@ import subprocess
 import Player
 import Item
 import Enemy
+import MapObjectId as ObjId
 from GameManager import GameManager
 
 try:
@@ -17,87 +18,83 @@ except:
 class EscapeGame:
     def __init__(self, game_manager:GameManager):
         self.tick_count = 0
-        self.item_event = 0
-        self.player_xy = []
-        self.player_data = {}
+        self.enemy_spawn_amount = 5
         self.game_manager = game_manager
-        self.enemy_manager = Enemy.Zombie()
-        self.player_data = { "name":"player111", "x":self.game_manager.get_player_xy()[0], "y":self.game_manager.get_player_xy()[1], "health":3 }
+        self.enemy_manager = Enemy.ZombieSpawner(self.enemy_spawn_amount)
 
-    def init_game(self):
-        # 각 모듈의 초기화 tick 전달
+    def init_game(self, spawn_amount):
+        self.tick_count = 0
+        self.enemy_spawn_amount = spawn_amount
 
-        # - 플레이어 틱
-        # 플레이어 위치 초기화
-        # self.player_xy = self.game_manager.get_player_xy()
-        data = {"name":"player111", "x":self.game_manager.get_player_xy()[0], "y":self.game_manager.get_player_xy()[1], "health":3}
+        # 플레이어 초기 위치 전달
+        p_receive_data = Player.tick(self.tick_count, { "name":"Player", "init_pos" : self.game_manager.get_init_player_xy(), "hp" : 5})
 
-        self.player_data = Player.Player.tick(self.tick_count, data)
+        # 아이템 모듈 초기 틱 : 아이템 박스를 생성할 랜덤 위치
+        i_data = { "able_place" : self.game_manager.get_able_place(), "num" : 5 }
+        self.game_manager.add_itmes(Item.tick(self.tick_count, i_data))
 
-        # - 아이템 틱
-        available_item_loc_lst = []
-        map_data = self.game_manager.get_map()
-        for i in range(len(map_data)):
-            for j in range(len(map_data[0])):
-                if map_data[i][j] == 101:
-                    available_item_loc_lst.append((i, j))
+        # 몬스터 모듈 초기 틱 : 몬스터 초기 스폰 위치
+        able_place = self.game_manager.get_able_place()
+        self.enemy_manager.spawn_zombies(able_place)
+        self.game_manager.update_enemy(self.enemy_manager.zombie_list)
 
-        self.game_manager.add_itmes(Item.Item.tick(self.tick_count, self.item_event, available_item_loc_lst, 10))
+        return p_receive_data
 
-        # - 적 틱
-        available_enemy_loc_lst = []
-        for i in range(len(map_data)):
-            for j in range(len(map_data[0])):
-                if map_data[i][j] == 101:
-                    available_enemy_loc_lst.append((i, j))
-
-        self.game_manager.update_enemy(self.enemy_manager.return_positions(available_enemy_loc_lst, self.tick_count))
-
-        # 게임 화면 초기화
-        self.update_display()
-
-    def update_display(self):
+    def update_display(self, p_data):
         # 지도 갱신
         os.system('cls')
         self.game_manager.display_map()
 
         # 플레이어 상태창 갱신
-        self.game_manager.display_status(self.player_data['name'], self.player_data['hp'], self.player_data['protect'], self.player_data['status'])
+        self.game_manager.display_status(p_data)
 
         # 메시지 창 갱신
+        try:
+            if len(p_data["message"]) > 0:
+                self.game_manager.add_message(p_data["message"])
+        except:
+            pass
+
         self.game_manager.display_message()
 
-    def start(self):
-        self.item_event = 2
+    def start(self) -> bool:
+        p_send_data = {}
+        p_receive_data = {}
+        skip_move = False
+        player_xy = self.game_manager.get_init_player_xy()
 
         while True:
             user_in = ""
 
+            # 플레이어 송신 데이터 초기화
+            p_send_data = {}
+
             # 키보드 입력 받기
             while True:
+                # if skip_move:
+                #     p_send_data["pass"] = True
+                #     skip_move = False
+                #     break
+
                 if keyboard.read_key() in ["w", "a", "s", "d"]:
                     user_in = keyboard.read_key()
 
-                # 캐릭터 이동
+                # 플레이어 이동 입력 체크
                 if user_in == "w":
-                    data = {"input_key":user_in}
-                    self.player_data = Player.Player.tick(1,data)
-                    self.game_manager.move_obj(0, [self.player_data["x"], self.player_data["y"]])
+                    if self.game_manager.check_move(ObjId.PLAYER, [player_xy[0], player_xy[1] - 1]):
+                        p_send_data["input_key"] = "w"
                     break
                 elif user_in == "a":
-                    data = {"input_key":user_in}
-                    self.player_data = Player.Player.tick(1,data)
-                    self.game_manager.move_obj(0, [self.player_data["x"], self.player_data["y"]])
+                    if self.game_manager.check_move(ObjId.PLAYER, [player_xy[0] - 1, player_xy[1]]):
+                        p_send_data["input_key"] = "a"
                     break
                 elif user_in == "s":
-                    data = {"input_key":user_in}
-                    self.player_data = Player.Player.tick(1,data)
-                    self.game_manager.move_obj(0, [self.player_data["x"], self.player_data["y"]])
+                    if self.game_manager.check_move(ObjId.PLAYER, [player_xy[0], player_xy[1] + 1]):
+                        p_send_data["input_key"] = "s"
                     break
                 elif user_in == "d":
-                    data = {"input_key":user_in}
-                    self.player_data = Player.Player.tick(1,data)
-                    self.game_manager.move_obj(0, [self.player_data["x"], self.player_data["y"]])
+                    if self.game_manager.check_move(ObjId.PLAYER, [player_xy[0] + 1, player_xy[1]]):
+                        p_send_data["input_key"] = "d"
                     break
 
                 time.sleep(0.1)
@@ -105,73 +102,82 @@ class EscapeGame:
             # tick 카운트 증가
             self.tick_count += 1
 
-            # 플레이어가 목표에 도달했는지 확인
-            self.player_xy = [self.player_data["x"], self.player_data["y"]]
-            goal_xy = self.game_manager.get_goal_xy()
+            p_send_data["able_place"] = self.game_manager.get_able_place()
 
-            if self.player_xy[0] == goal_xy[0] and self.player_xy[1] == goal_xy[1]:
-                print(True)
-                break
+            # 플레이어 이동 전달
+            self.game_manager.move_obj(ObjId.PLAYER, player_xy)
 
-            # ---플레이어 이동 후 상호작용---
-            # TODO tick 보내기
-            # - 플레이어 틱
-            # [이벤트코드, ]
-            # 0:캐릭터 생성 1: 이동x, 2: 이동, 3: 피해, 4: 아이템획득, 5: 탈출,
-            # print(self.game_manager.get_items())
-            # print(self.game_manager.get_items().keys)
+            # 아이템 상자를 열었을 때
+            if self.game_manager.get_place_type(player_xy) == ObjId.ITEM_BOX:
+                p_send_data["item"] = True
+                self.game_manager.del_item(player_xy)
 
-            print(self.player_xy[0], self.player_xy[1])
+            # 플레이어가 목표에 도달했을 때
+            if self.game_manager.get_place_type(player_xy) == ObjId.DOOR:
+                return True
 
-            for i in enumerate(self.game_manager.get_items()):
-                print(i[1][0], i[1][1])
-                if self.player_xy[0] == i[1][1] and self.player_xy[1] == i[1][0]:
-                    print("item 획득!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
-                    break
+            # 적 이동하기
+            self.enemy_manager.tick_move_zombies(self.game_manager.get_map(), player_xy)
 
+            # 적과의 상호작용(상하좌우 인접시)
+            # 플레이어 인접 좌표
+            near_pos_lst = [[player_xy[0] + 1, player_xy[1]],
+                        [player_xy[0] - 1, player_xy[1]],
+                        [player_xy[0], player_xy[1] + 1],
+                        [player_xy[0], player_xy[1] - 1]]
 
-            # - 아이템 틱
-            #Item.Item.tick(self.tick_count, self.item_event, self.game_manager.get_map(), 10)
+            enemy_pos_lst = self.enemy_manager.get_zombies_pos()
 
-            # - 적 틱
-            # Enemy.tick(tick_count, )
-            # game_manager.update_enemy([[10, 10], [12, 12], [13, 20]])
-            available_enemy_loc_lst = []
-            map_data = self.game_manager.get_map()
-            for i in range(len(map_data)):
-                for j in range(len(map_data[0])):
-                    if map_data[i][j] == 101:
-                        available_enemy_loc_lst.append((i, j))
+            for near in near_pos_lst:
+                if near in enemy_pos_lst:
+                    p_send_data["damaged"] = 1
+                    self.enemy_manager.stun_zombie(near)
 
-            self.game_manager.update_enemy(self.enemy_manager.return_positions(available_enemy_loc_lst, self.tick_count))
+            # 좀비 보충 스폰
+            able_place = self.game_manager.get_able_place()
+            self.enemy_manager.spawn_zombies(able_place)
 
-            # TODO 적과의 상호작용
-            # 적과의 상호작용은 어떤 것이 있을까?
-            # 적은 1칸 이내로 들어왔을 때(인접했을 때) 상호작용
+            p_receive_data = Player.tick(self.tick_count, p_send_data)
 
-            # TODO 아이템 박스 열기
-            # 아이템은 겹칠 때 먹기
+            p_send_data = {}
 
-            # ---화면 갱신---
-            # TODO 적 위치 갱신
-            # game_manager.update_enemy([Enemy.get_final_zombie_position(game_manager.get_map())])
+            player_xy = p_receive_data["pos"]
 
-            # 맵, 상태창, 메시지창 갱신
-            self.update_display()
+            # 플레이어 사망
+            if p_receive_data["hp"] <= 0:
+                self.game_manager.clear_messages()
+                return False
+
+            # 화면 갱신
+            self.update_display(p_receive_data)
 
 if __name__ == "__main__":
+    stage_num = 3
+    clear_count = 0
+
     gm = GameManager()
     game = EscapeGame(gm)
 
-    clear_count = 0
-
     while True:
-        if clear_count < 3:
+        if clear_count < stage_num:
             gm.gen_map()
 
-            game.init_game()
-            game.update_display()
-            game.start()
+            if clear_count == 0:
+                gm.add_message("1")
+            elif clear_count == 1:
+                gm.add_message("2")
+            elif clear_count == 2:
+                gm.add_message("3")
+
+            # 게임 초기화
+            p = game.init_game(clear_count + 5)
+            game.update_display(p)
+
+            if game.start():
+                clear_count += 1
+            else:
+                print("사망")
+                break
         else:
             print("클리어")
             break

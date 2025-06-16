@@ -1,78 +1,21 @@
 import random
+import MapObjectId as objId
 import math
 
 class R_Map:
-    # 각 타일의 코드와 심볼을 정의
-    # 플레이어
-    PLAYER = 0          # 시작 위치 (🚶)
-
-    # 이동 가능 지형
-    ROAD = 101          # 길 ("  ", 공백 두 칸)
-    DOOR = 102          # 도착 위치 (🏁)
-
-    # 이동 불가 지형
-    TREE = 201          # 나무 (🌲)
-    WATER = 202         # 물 (🌊)
-    MOUNTAIN = 203      # 산 (⛰️)
-    STONE = 204         # 돌 (🪨)
-    SUN = 205           # 태양 (☀️)
-    WALL = 206          # 벽돌 (🧱)
-
-    # 아이템
-    ITEM_BOX = 301      # 아이템 박스
-    TORCH = 311         # 횃불
-    FLASHLIGHT = 312    # 손전등
-    POTION = 313        # 체력 회복 물약
-    ARMOR1 = 314        # 천 갑옷
-    ARMOR2 = 315        # 가죽 갑옷
-    ARMOR3 = 316        # 판금 갑옷
-    WARP = 317          # 워프
-    NOTHING = 318       # 꽝
-    VACCINE = 319       # 치료제
-    MY_KEY = 320        # 연구소 출입 열쇠
-
-    # 몬스터
-    WEAPON_ZOMBIE = 401
-    BOAMER_ZOMBIE = 402
-    MIST_ZOMBIE = 403
-    MUSCLE_ZOMBIE = 404
-    SCREAM_ZOMBIE = 405
-    WIZARD_ZOMBIE = 406
-    REVERSE_ZOMBIE = 407
-    NORMAL_ZOMBIE = 408
-
-    # 오브젝트 목록
-    CODE_TO_SYMBOL = {
-        PLAYER: "🚶",
-        ROAD: "  ",
-        TREE: "🌲",
-        WATER: "🌊",
-        MOUNTAIN: "⛰️",
-        STONE: "🪨",
-        DOOR: "🏁",
-        SUN: "☀️",
-        WALL : "🧱"
-    }
-
     # 방 중앙에 배치할 오브젝트 목록
-    CENTER_OBJECTS = [WATER, MOUNTAIN, STONE, SUN, WALL]
+    CENTER_OBJECTS = [objId.WATER, objId.MOUNTAIN, objId.STONE, objId.SUN, objId.WALL]
 
-    def __init__(self, width=60, height=30, room_min=4, room_max=4, room_count=20):
+    def __init__(self, width, height, room_min=4, room_max=10, room_count=15):
         self.width = width             # 맵 가로
         self.height = height           # 맵 세로
         self.room_min = room_min       # 방의 최소 크기
         self.room_max = room_max       # 방의 최대 크기
         self.room_count = room_count   # 방 개수
-        self.player_xy = []
-        self.goal_xy = []
-
-        # 맵 데이터: 2차원 리스트로, 초기값은 TREE(나무)
-        self.map_data = [
-            [self.TREE for i in range(self.width)]
-            for j in range(self.height)
-        ]
-        self.rooms = []         # 방 정보 저장 리스트
-
+        self.player_pos = []
+        self.goal_pos = []
+        self.map_data = []
+        self.rooms = []
 
     def place_rooms(self):
         # room_count만큼 방을 생성
@@ -94,7 +37,7 @@ class R_Map:
                     for j in range(x, x + w, 2):
                         for v in range(2):
                             for k in range(2):
-                                self.map_data[i + v][j + k] = self.ROAD
+                                self.map_data[i + v][j + k] = objId.ROAD
                 self.rooms.append(new_room)
                 break  # 방 하나 배치 완료
 
@@ -109,7 +52,7 @@ class R_Map:
             for dy in range(2):
                 for dx in range(2):
                     if 0 <= cy + dy < self.height and 0 <= cx + dx < self.width:
-                        self.map_data[cy + dy][cx + dx] = self.ROAD
+                        self.map_data[cy + dy][cx + dx] = objId.ROAD
             cx += step
         # y축 이동
         while cy != y2:
@@ -117,7 +60,7 @@ class R_Map:
             for dy in range(2):
                 for dx in range(2):
                     if 0 <= cy+dy < self.height and 0 <= cx+dx < self.width:
-                        self.map_data[cy + dy][cx + dx] = self.ROAD
+                        self.map_data[cy + dy][cx + dx] = objId.ROAD
             cy += step
 
 
@@ -144,15 +87,17 @@ class R_Map:
             cy = y + (h // 2) // 2 * 2
             #todo 각 방의 코너에 오브젝트 배치?
             co_y = y + (h // 3) // 3*3
+
             #todo 하나더?
             # CENTER_OBJECTS 중 랜덤 선택
             obj1 = random.choice(self.CENTER_OBJECTS)
+
             #중심 2x2 영역에 오브젝트 배치 (시작/도착지가 아니면)
             for dy in range(1):
                 for dx in range(1):
-                    if cy + dy != self.player_xy[1] and cx + dx != self.player_xy[0] and cy + dy != self.goal_xy[1] and cx + dx != self.goal_xy[0]:
+                    if cy + dy != self.player_pos[1] and cx + dx != self.player_pos[0] and cy + dy != self.goal_pos[1] and cx + dx != self.goal_pos[0]:
                         self.map_data[cy + dy][cx + dx] = obj1
-                    if co_y + dy != self.player_xy[1] and cx + dx != self.player_xy[0] and co_y + dy != self.goal_xy[1] and cx + dx != self.goal_xy[0]:
+                    if co_y + dy != self.player_pos[1] and cx + dx != self.player_pos[0] and co_y + dy != self.goal_pos[1] and cx + dx != self.goal_pos[0]:
                         self.map_data[co_y + dy][cx + dx] = obj1
 
             # 방이 크면(면적 36 이상) 추가 오브젝트 배치
@@ -166,7 +111,7 @@ class R_Map:
                         obj2 = random.choice(self.CENTER_OBJECTS)
                         for dy in range(2):
                             for dx in range(2):
-                                if ry + dy != self.player_xy[1] and rx + dx != self.player_xy[0]:
+                                if ry + dy != self.player_pos[1] and rx + dx != self.player_pos[0]:
                                     self.map_data[ry + dy][rx + dx] = obj2
                         break
                     tries += 1
@@ -177,8 +122,8 @@ class R_Map:
 
         for y in range(self.height):
             for x in range(self.width):
-                if self.map_data[y][x] in [self.PLAYER, self.DOOR]:
-                    self.map_data[y][x] = self.ROAD
+                if self.map_data[y][x] in [objId.PLAYER, objId.DOOR]:
+                    self.map_data[y][x] = objId.ROAD
 
         sx = self.rooms[0][0] + (self.rooms[0][2] // 2) // 2 * 2
         sy = self.rooms[0][1] + (self.rooms[0][3] // 2) // 2 * 2
@@ -186,12 +131,15 @@ class R_Map:
         ey = self.rooms[-1][1] + (self.rooms[-1][3] // 2) // 2 * 2
 
         self.map_data[sy][sx] = 101
-        self.map_data[ey][ex] = self.DOOR
+        self.map_data[ey][ex] = objId.DOOR
 
         dist = math.sqrt((sx - ex) ** 2 + (sy - ey) ** 2)
         return dist, sy, sx, ey, ex
 
     def generate(self):
+        self.map_data = [[objId.TREE for i in range(self.width)]for j in range(self.height)]
+        self.rooms = []
+
         self.place_rooms()
         self.connect_rooms()
 
@@ -200,23 +148,11 @@ class R_Map:
             data = self.set_start_and_arrive()
             current_dist = data[0]
             if current_dist >= 20:
-                self.player_xy = [data[2], data[1]]
-                self.goal_xy = [data[4], data[3]]
+                self.player_pos = [data[2], data[1]]
+                self.goal_pos = [data[4], data[3]]
                 break
 
         self.place_center_objects()
 
     def get_map_data(self):
         return self.map_data
-
-    def print_map(self):
-        # 맵 데이터를 심볼로 변환해 출력
-        for row in self.map_data:
-            print("".join(self.CODE_TO_SYMBOL.get(cell, "") for cell in row))
-
-
-if __name__ == "__main__":
-    # 맵 객체 생성 및 맵 생성, 출력
-    rpg_map = R_Map()
-    rpg_map.generate()
-    rpg_map.print_map()

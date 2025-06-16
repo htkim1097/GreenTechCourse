@@ -145,4 +145,9 @@
 #                 else:
 #                     row_str += "⬛"
 #             print(row_str)
-#
+
+d = {}
+d["dd"] = 1
+d["aa"] = "a"
+
+print(d)

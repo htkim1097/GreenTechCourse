@@ -1,3 +1,4 @@
+# 각 타일의 코드와 심볼을 정의
 # 플레이어
 PLAYER = 0          # 시작 위치 (🚶)
 
@@ -17,14 +18,4 @@ WALL = 206          # 벽돌 (🧱)
 ITEM_BOX = 301      # 아이템 박스
 
 # 몬스터
-WEAPON_ZOMBIE = 401
-BOAMER_ZOMBIE = 402
-MIST_ZOMBIE = 403
-MUSCLE_ZOMBIE = 404
-SCREAM_ZOMBIE = 405
-WIZARD_ZOMBIE = 406
-REVERSE_ZOMBIE = 407
 NORMAL_ZOMBIE = 408
-
-# 효과
-EXPLOSION = 501
