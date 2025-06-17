@@ -18,13 +18,12 @@ except:
 class EscapeGame:
     def __init__(self, game_manager:GameManager):
         self.tick_count = 0
-        self.enemy_spawn_amount = 5
         self.game_manager = game_manager
-        self.enemy_manager = Enemy.ZombieSpawner(self.enemy_spawn_amount)
+        self.enemy_manager = Enemy.ZombieSpawner(5)
 
     def init_game(self, spawn_amount):
         self.tick_count = 0
-        self.enemy_spawn_amount = spawn_amount
+        self.enemy_manager.max_zombies = spawn_amount
 
         # 플레이어 초기 위치 전달
         p_receive_data = Player.tick(self.tick_count, { "name":"Player", "init_pos" : self.game_manager.get_init_player_xy(), "hp" : 5})
@@ -99,57 +98,57 @@ class EscapeGame:
 
                 time.sleep(0.1)
 
-            # tick 카운트 증가
-            self.tick_count += 1
+                # tick 카운트 증가
+                self.tick_count += 1
 
-            p_send_data["able_place"] = self.game_manager.get_able_place()
+                p_send_data["able_place"] = self.game_manager.get_able_place()
 
-            # 플레이어 이동 전달
-            self.game_manager.move_obj(ObjId.PLAYER, player_xy)
+                # 플레이어 이동 전달
+                self.game_manager.move_obj(ObjId.PLAYER, player_xy)
 
-            # 아이템 상자를 열었을 때
-            if self.game_manager.get_place_type(player_xy) == ObjId.ITEM_BOX:
-                p_send_data["item"] = True
-                self.game_manager.del_item(player_xy)
+                # 아이템 상자를 열었을 때
+                if self.game_manager.get_place_type(player_xy) == ObjId.ITEM_BOX:
+                    p_send_data["item"] = True
+                    self.game_manager.del_item(player_xy)
 
-            # 플레이어가 목표에 도달했을 때
-            if self.game_manager.get_place_type(player_xy) == ObjId.DOOR:
-                return True
+                p_receive_data = Player.tick(self.tick_count, p_send_data)
 
-            # 적 이동하기
-            self.enemy_manager.tick_move_zombies(self.game_manager.get_map(), player_xy)
+                p_send_data = {}
 
-            # 적과의 상호작용(상하좌우 인접시)
-            # 플레이어 인접 좌표
-            near_pos_lst = [[player_xy[0] + 1, player_xy[1]],
-                        [player_xy[0] - 1, player_xy[1]],
-                        [player_xy[0], player_xy[1] + 1],
-                        [player_xy[0], player_xy[1] - 1]]
+                player_xy = p_receive_data["pos"]
 
-            enemy_pos_lst = self.enemy_manager.get_zombies_pos()
+                # 플레이어가 목표에 도달했을 때
+                if self.game_manager.get_place_type(player_xy) == ObjId.DOOR:
+                    return True
 
-            for near in near_pos_lst:
-                if near in enemy_pos_lst:
-                    p_send_data["damaged"] = 1
-                    self.enemy_manager.stun_zombie(near)
+                # 적 이동하기
+                self.enemy_manager.tick_move_zombies(self.game_manager.get_map(), player_xy)
 
-            # 좀비 보충 스폰
-            able_place = self.game_manager.get_able_place()
-            self.enemy_manager.spawn_zombies(able_place)
+                # 적과의 상호작용(상하좌우 인접시)
+                # 플레이어 인접 좌표
+                near_pos_lst = [[player_xy[0] + 1, player_xy[1]],
+                                [player_xy[0] - 1, player_xy[1]],
+                                [player_xy[0], player_xy[1] + 1],
+                                [player_xy[0], player_xy[1] - 1]]
 
-            p_receive_data = Player.tick(self.tick_count, p_send_data)
+                enemy_pos_lst = self.enemy_manager.get_zombies_pos()
 
-            p_send_data = {}
+                for near in near_pos_lst:
+                    if near in enemy_pos_lst:
+                        p_send_data["damaged"] = 1
+                        self.enemy_manager.stun_zombie(near)
 
-            player_xy = p_receive_data["pos"]
+                # 좀비 보충 스폰
+                able_place = self.game_manager.get_able_place()
+                self.enemy_manager.spawn_zombies(able_place)
 
-            # 플레이어 사망
-            if p_receive_data["hp"] <= 0:
-                self.game_manager.clear_messages()
-                return False
+                # 플레이어 사망
+                if p_receive_data["hp"] <= 0:
+                    self.game_manager.clear_messages()
+                    return False
 
-            # 화면 갱신
-            self.update_display(p_receive_data)
+                # 화면 갱신
+                self.update_display(p_receive_data)
 
 if __name__ == "__main__":
     stage_num = 3
