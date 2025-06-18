@@ -24,7 +24,7 @@ class EscapeGame:
 
     def init_game(self, spawn_amount):
         self.tick_count = 0
-        self.enemy_manager.max_zombies = spawn_amount
+        self.enemy_spawn_amount = spawn_amount
 
         # 플레이어 초기 위치 전달
         p_receive_data = Player.tick(self.tick_count, {"name": "Player", "init_pos" : self.game_manager.get_init_player_xy(), "hp" : 5})
