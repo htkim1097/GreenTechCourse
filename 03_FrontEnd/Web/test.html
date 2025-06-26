@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<!--이 문서의 타입은 html-->
+
+<!--<태그이름 속성=속성값>-->
+<html lang="ko">
+
+<!--여는 태그-->
+<head>
+    <!--meta : html 문서의 정보-->
+    <meta charset="UTF-8">
+    <!--title : 탭 제목-->
+    <title>HTML Intro</title>
+</head>
+<!--닫는 태그-->
+    
+<body>
+    <!--h 태그는 제목-->
+    <!--title: 툴팁-->
+    <h1 title='h1태그로 작성' id='a1'>Hello World?</h1>
+    <h2>Hello World?</h2>
+    <h3>Hello World?</h3>
+    <h4>Hello World?</h4>
+    <h5>Hello World?</h5>
+    
+    <p>p태그는 문단 단락 구분 태그</p>    
+    
+    <hr>
+    <br>
+    
+    <pre>
+    1
+    2
+    3
+    </pre>
+    
+    <p>
+        <b>진하게</b><br>
+        <strong>중요한</strong><br>
+        <em>강조</em><br>
+        <i>이탤릭</i><br>
+        <b><i>진하게이탤릭</i></b><br>
+        <small>작은문자</small><br>
+        <del>삭제표기</del><br>
+        <ins>추가표기</ins><br>
+        100<sup>위첨자</sup><br>
+        100<sub>아래첨자</sub><br>
+        <mark>하이라이트</mark><br>
+    </p>
+    
+    <div>123</div>
+    <span>123</span>
+    
+    <!--img: 이미지 태그-->
+    <img id='a2' src='https://img.seoul.co.kr/img/upload/2022/11/21/SSI_20221121001715_O2.jpg' alt='대체 텍스트'>
+    
+    <ol type='A'>
+	   <li>111</li>
+	   <li>222</li>
+    </ol>
+    
+    <ul>
+        <li>111</li>
+        <li>222</li>
+    </ul>
+    
+    <ul>
+        <li>
+            HTML
+            <ol>
+                <li>태그</li>
+                <li>요소</li>
+                <li>속성</li>
+                <li>기타</li>
+            </ol>
+            <hr>
+        </li>
+	    <li>
+            JAVA
+            <ol type="I">
+                <li>변수</li>
+                <li>자료형</li>
+                <li>제어문</li>
+                <li>배열</li>
+                <li>메소드</li>
+            </ol>
+        </li>
+    </ul>
+    
+    <dl>
+        <dt>용어</dt>
+        <dd>설명</dd>
+    </dl>
+    
+    <table id='a3' border="1">
+        <caption>테이블의 제목</caption>
+        
+        <thead>
+            <tr><th>이름</th><th>HTML</th><th>CSS</th></tr>
+        </thead>
+        
+        <tbody>
+            <tr><td>A</td><td>11</td><td>11</td></tr>
+            <tr><td>B</td><td>22</td><td>22</td></tr>
+            <tr><td>C</td><td>33</td><td>33</td></tr>
+        </tbody>
+        
+        <tfoot>
+            <tr><th>합</th><th>123</th><th>123</th></tr>
+        </tfoot>
+    </table>
+    
+    <a href='https://www.google.com'><img src='https://img.seoul.co.kr/img/upload/2022/11/21/SSI_20221121001715_O2.jpg' alt='대체 텍스트' width=100></a>
+    <a href='test2.html'>다음 페이지로</a>
+    
+    <ul id='a4' style="list-style-type:none; padding-left: 0; position: fixed; right: 10px; top: 10px">
+            <li>
+                <a href="https://shopping.naver.com/ns/home">
+                    <img src='resource/image_store.png' width="80" height="80">
+                </a>
+            </li>
+            <li>
+                <a href="https://news.naver.com/">
+                    <img src='resource/image_news.png' width="80" height="80">
+                </a>
+            </li>
+            <li>
+                <a href="https://finance.naver.com/">
+                    <img src='resource/image_st.png' width="80" height="80">
+                </a>
+            </li>
+            <li>
+                <a href="https://land.naver.com//">
+                    <img src='resource/image_land.png' width="80" height="80">
+                </a>
+            </li>
+            <li>
+                <a href="https://map.naver.com/p/">
+                    <img src='resource/image_map.png' width="80" height="80">
+                </a>
+            </li>
+        </ul>
+    <a href='#a1'>a1로 이동</a>
+    <a href='#a2'>a2로 이동</a>
+    <a href='#a3'>a3로 이동</a>
+    <a href='#a4'>a4로 이동</a>
+    
+    <iframe title='123' src='test2.html' width='300' height='300'>
+        300
+    </iframe>
+    
+    <video src="resource/244839_tiny.mp4" autoplay muted loop></video>
+    
+    <audio src="resource/silent-evening-calm-piano-335749.mp3" type="audio/mpeg" controls loop></audio>
+    
+</body>
+</html>
+
