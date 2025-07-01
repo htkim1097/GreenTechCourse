@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="ko">
+    <head>
+        <meta charset="UTF-8" />
+        <title>Title</title>
+        <style>
+            .container {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                height: 200px;
+                background-color: aqua;
+                padding: 20px;
+            }
+
+            .item {
+                background-color: blueviolet;
+                color: white;
+                padding: 20px;
+                border-radius: 10px;
+                flex: 1px;
+                margin: 10px;
+                text-align: center;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <div class="item">박스1</div>
+            <div class="item">박스2</div>
+            <div class="item">박스3</div>
+        </div>
+
+        <br />
+        <hr />
+        <br />
+
+        <img
+            width="300px"
+            src="resource/cat1.jpg"
+            onmouseover="this.src='resource/cat2.jpg'"
+            onmouseout="this.src='resource/cat1.jpg'" />
+    </body>
+</html>

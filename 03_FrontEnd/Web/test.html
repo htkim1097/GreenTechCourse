@@ -1,157 +1,411 @@
-<!DOCTYPE html>
+<!doctype html>
 <!--이 문서의 타입은 html-->
 
 <!--<태그이름 속성=속성값>-->
 <html lang="ko">
+    <!--여는 태그-->
+    <head>
+        <!--meta : html 문서의 정보-->
+        <meta charset="UTF-8" />
 
-<!--여는 태그-->
-<head>
-    <!--meta : html 문서의 정보-->
-    <meta charset="UTF-8">
-    <!--title : 탭 제목-->
-    <title>HTML Intro</title>
-</head>
-<!--닫는 태그-->
-    
-<body>
-    <!--h 태그는 제목-->
-    <!--title: 툴팁-->
-    <h1 title='h1태그로 작성' id='a1'>Hello World?</h1>
-    <h2>Hello World?</h2>
-    <h3>Hello World?</h3>
-    <h4>Hello World?</h4>
-    <h5>Hello World?</h5>
-    
-    <p>p태그는 문단 단락 구분 태그</p>    
-    
-    <hr>
-    <br>
-    
-    <pre>
+        <link rel="stylesheet" href="test_css.css" />
+
+        <!--title : 탭 제목-->
+        <title>HTML Intro</title>
+
+        <style>
+            /*주석처리*/
+            /*CSS3 스타일 시트 구문의 구성
+             * ex)
+            * span{color: blue; font-size: 30px}
+            * 위 문장에서 
+            * span은 셀렉터로 스타일을 적용하려는 대상을 지정하는 것.
+            * color는 지정하려는 속성명
+            * blue는 color 속성에 지정하려는 속성 값
+            * ;는 구분자
+            * */
+        </style>
+    </head>
+    <!--닫는 태그-->
+
+    <body>
+        <!--h 태그는 제목-->
+        <!--title: 툴팁-->
+        <h1 title="h1태그로 작성" id="a1">Hello World?</h1>
+        <h2>Hello World?</h2>
+        <h3>Hello World?</h3>
+        <h4>Hello World?</h4>
+        <h5>Hello World?</h5>
+
+        <p>p태그는 문단 단락 구분 태그</p>
+
+        <hr />
+        <br />
+
+        <pre>
     1
     2
     3
-    </pre>
-    
-    <p>
-        <b>진하게</b><br>
-        <strong>중요한</strong><br>
-        <em>강조</em><br>
-        <i>이탤릭</i><br>
-        <b><i>진하게이탤릭</i></b><br>
-        <small>작은문자</small><br>
-        <del>삭제표기</del><br>
-        <ins>추가표기</ins><br>
-        100<sup>위첨자</sup><br>
-        100<sub>아래첨자</sub><br>
-        <mark>하이라이트</mark><br>
-    </p>
-    
-    <div>123</div>
-    <span>123</span>
-    
-    <!--img: 이미지 태그-->
-    <img id='a2' src='https://img.seoul.co.kr/img/upload/2022/11/21/SSI_20221121001715_O2.jpg' alt='대체 텍스트'>
-    
-    <ol type='A'>
-	   <li>111</li>
-	   <li>222</li>
-    </ol>
-    
-    <ul>
-        <li>111</li>
-        <li>222</li>
-    </ul>
-    
-    <ul>
-        <li>
-            HTML
-            <ol>
-                <li>태그</li>
-                <li>요소</li>
-                <li>속성</li>
-                <li>기타</li>
-            </ol>
-            <hr>
-        </li>
-	    <li>
-            JAVA
-            <ol type="I">
-                <li>변수</li>
-                <li>자료형</li>
-                <li>제어문</li>
-                <li>배열</li>
-                <li>메소드</li>
-            </ol>
-        </li>
-    </ul>
-    
-    <dl>
-        <dt>용어</dt>
-        <dd>설명</dd>
-    </dl>
-    
-    <table id='a3' border="1">
-        <caption>테이블의 제목</caption>
-        
-        <thead>
-            <tr><th>이름</th><th>HTML</th><th>CSS</th></tr>
-        </thead>
-        
-        <tbody>
-            <tr><td>A</td><td>11</td><td>11</td></tr>
-            <tr><td>B</td><td>22</td><td>22</td></tr>
-            <tr><td>C</td><td>33</td><td>33</td></tr>
-        </tbody>
-        
-        <tfoot>
-            <tr><th>합</th><th>123</th><th>123</th></tr>
-        </tfoot>
-    </table>
-    
-    <a href='https://www.google.com'><img src='https://img.seoul.co.kr/img/upload/2022/11/21/SSI_20221121001715_O2.jpg' alt='대체 텍스트' width=100></a>
-    <a href='test2.html'>다음 페이지로</a>
-    
-    <ul id='a4' style="list-style-type:none; padding-left: 0; position: fixed; right: 10px; top: 10px">
+    </pre
+        >
+
+        <p>
+            <b>진하게</b><br />
+            <strong>중요한</strong><br />
+            <em>강조</em><br />
+            <i>이탤릭</i><br />
+            <b><i>진하게이탤릭</i></b
+            ><br />
+            <small>작은문자</small><br />
+            <del>삭제표기</del><br />
+            <ins>추가표기</ins><br />
+            100<sup>위첨자</sup><br />
+            100<sub>아래첨자</sub><br />
+            <mark>하이라이트</mark><br />
+        </p>
+
+        <div>123</div>
+        <span>123</span>
+
+        <!--img: 이미지 태그-->
+        <img id="a2" src="https://img.seoul.co.kr/img/upload/2022/11/21/SSI_20221121001715_O2.jpg" alt="대체 텍스트" />
+
+        <ol type="A">
+            <li>111</li>
+            <li>222</li>
+        </ol>
+
+        <ul>
+            <li>111</li>
+            <li>222</li>
+        </ul>
+
+        <ul>
+            <li>
+                HTML
+                <ol>
+                    <li>태그</li>
+                    <li>요소</li>
+                    <li>속성</li>
+                    <li>기타</li>
+                </ol>
+                <hr />
+            </li>
+            <li>
+                JAVA
+                <ol type="I">
+                    <li>변수</li>
+                    <li>자료형</li>
+                    <li>제어문</li>
+                    <li>배열</li>
+                    <li>메소드</li>
+                </ol>
+            </li>
+        </ul>
+
+        <dl>
+            <dt>용어</dt>
+            <dd>설명</dd>
+        </dl>
+
+        <table id="a3" border="1">
+            <caption>
+                테이블의 제목
+            </caption>
+
+            <thead>
+                <tr>
+                    <th>이름</th>
+                    <th>HTML</th>
+                    <th>CSS</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                <tr>
+                    <td>A</td>
+                    <td>11</td>
+                    <td>11</td>
+                </tr>
+                <tr>
+                    <td>B</td>
+                    <td>22</td>
+                    <td>22</td>
+                </tr>
+                <tr>
+                    <td>C</td>
+                    <td>33</td>
+                    <td>33</td>
+                </tr>
+            </tbody>
+
+            <tfoot>
+                <tr>
+                    <th>합</th>
+                    <th>123</th>
+                    <th>123</th>
+                </tr>
+            </tfoot>
+        </table>
+
+        <a href="https://www.google.com"
+            ><img
+                src="https://img.seoul.co.kr/img/upload/2022/11/21/SSI_20221121001715_O2.jpg"
+                alt="대체 텍스트"
+                width="100"
+        /></a>
+        <a href="test2.html">다음 페이지로</a>
+
+        <ul style="list-style-type: none">
             <li>
                 <a href="https://shopping.naver.com/ns/home">
-                    <img src='resource/image_store.png' width="80" height="80">
+                    <img src="resource/image_store.png" width="80" height="80" />
                 </a>
             </li>
             <li>
                 <a href="https://news.naver.com/">
-                    <img src='resource/image_news.png' width="80" height="80">
+                    <img src="resource/image_news.png" width="80" height="80" />
                 </a>
             </li>
             <li>
                 <a href="https://finance.naver.com/">
-                    <img src='resource/image_st.png' width="80" height="80">
+                    <img src="resource/image_st.png" width="80" height="80" />
                 </a>
             </li>
             <li>
                 <a href="https://land.naver.com//">
-                    <img src='resource/image_land.png' width="80" height="80">
+                    <img src="resource/image_land.png" width="80" height="80" />
                 </a>
             </li>
             <li>
                 <a href="https://map.naver.com/p/">
-                    <img src='resource/image_map.png' width="80" height="80">
+                    <img src="resource/image_map.png" width="80" height="80" />
                 </a>
             </li>
         </ul>
-    <a href='#a1'>a1로 이동</a>
-    <a href='#a2'>a2로 이동</a>
-    <a href='#a3'>a3로 이동</a>
-    <a href='#a4'>a4로 이동</a>
-    
-    <iframe title='123' src='test2.html' width='300' height='300'>
-        300
-    </iframe>
-    
-    <video src="resource/244839_tiny.mp4" autoplay muted loop></video>
-    
-    <audio src="resource/silent-evening-calm-piano-335749.mp3" type="audio/mpeg" controls loop></audio>
-    
-</body>
-</html>
+        <a href="#a1">a1로 이동</a>
+        <a href="#a2">a2로 이동</a>
+        <a href="#a3">a3로 이동</a>
+        <a href="#a4">a4로 이동</a>
 
+        <iframe title="123" src="test2.html" width="300" height="300"> 300 </iframe>
+
+        <video src="resource/244839_tiny.mp4" autoplay muted loop></video>
+
+        <audio src="resource/silent-evening-calm-piano-335749.mp3" type="audio/mpeg" controls loop></audio>
+
+        <form name="fo" method="get">
+            사용자ID: <input type="text" size="15" value="" /><br />
+            비밀번호: <input type="password" size="15" value="" /><br />
+            login<input type="submit" value="" /><br />
+            button<input type="button" value="" /><br />
+            reset<input type="reset" value="" /><br />
+            image<input type="image" value="" /><br />
+            checkbox<input type="checkbox" value="" /><br />
+            month<input type="month" value="" /><br />
+            number<input type="number" value="" /><br />
+            color<input type="color" vlaue="" /><br />
+            email<input type="email" value="" /><br />
+            url<input type="url" value="" /><br />
+            tel<input type="tel" value="" /><br />
+            search<input type="search" value="" /><br />
+        </form>
+
+        <textarea>여러 줄 텍스트 입력 창</textarea><br />
+
+        <input type="text" list="list_id" />
+        <datalist id="list_id">
+            <option value="set1"></option>
+            <option value="set2"></option>
+        </datalist>
+
+        <br />
+
+        <hr />
+        <form>
+            check1<input type="checkbox" value="check1" /> check2<input type="checkbox" value="check2" checked />
+            check3<input type="checkbox" value="check3" />
+        </form>
+
+        <hr />
+
+        <form>
+            <input type="radio" name="A" value="1" />
+            <input type="radio" name="A" value="2" />
+            <input type="radio" name="A" value="3" /><br />
+            <input type="radio" name="B" value="4" /><br />
+            <input type="radio" name="C" value="5" />
+            <input type="radio" name="C" value="6" />
+        </form>
+
+        <hr />
+
+        <form>
+            <select name="aa">
+                <option value="1">AAA</option>
+                <option value="2">BBB</option>
+                <option value="3" selected>CCC</option>
+            </select>
+        </form>
+
+        <hr />
+
+        <form>색상선택<input type="color" value="#00ff00" onchange="document.body.style.color=this.value" /></form>
+
+        <div class="abc">셀렉터 연습용</div>
+
+        <ul>
+            <li>1</li>
+            <li>2</li>
+            <li>3</li>
+            <li>4</li>
+            <li>5</li>
+        </ul>
+
+        <a href="">link</a>
+
+        <div>
+            <div><strong>내부 스트롱 적용</strong></div>
+            <ul>
+                <li>html</li>
+                <li>css</li>
+                <li>js</li>
+            </ul>
+            <div>div2</div>
+        </div>
+
+        <p>111111111111111</p>
+
+        <div class="box">
+            <span>DIV</span>
+        </div>
+
+        <div id="b">background 속성 활용 DIV 구간</div>
+
+        <input type="button" />
+
+        <div>d1</div>
+        <div>d2</div>
+        <div>d3</div>
+        <span>s1</span><span>s2</span><span>s3</span>
+
+        <div style="background-color: orange">
+            <div>inline-block</div>
+            <div>inline-block</div>
+            <div>inline-block</div>
+        </div>
+
+        <br />
+        <br />
+        <hr />
+        <br />
+        <br />
+        <div></div>
+        <div class="d1">A</div>
+        <div class="d1" id="divB">B</div>
+        <div class="d1">C</div>
+        <div class="d1">D</div>
+        <div class="d1" id="divE">E</div>
+        <div class="d1">F</div>
+
+        <div id="cont1">
+            <img src="resource/wiki/Python_logo_and_wordmark.svg.png" width="200" height="200" />
+            <p style="left: 50px; top: 30px">A</p>
+            <p style="left: 150px; top: 40px">B</p>
+            <p style="left: 70px; top: 10px">C</p>
+            <p style="left: 10px; top: 170px">D</p>
+            <p style="left: 100px; top: 20px">E</p>
+        </div>
+
+        <br />
+        <hr />
+        <br />
+
+        <div id="fixed">Fixed 버튼</div>
+
+        <br />
+        <hr />
+        <br />
+
+        <div id="cont2">
+            <img class="img" id="aa" src="resource/card/1.png" width="100" height="140" />
+            <img class="img" id="bb" src="resource/card/2.png" width="100" height="140" />
+            <img class="img" id="cc" src="resource/card/3.png" width="100" height="140" />
+            <img class="img" id="dd" src="resource/card/4.png" width="100" height="140" />
+        </div>
+
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+
+        <ul>
+            <li>1234<span>567</span>89</li>
+            <li>123456789</li>
+            <li>1<span>2345</span>6789</li>
+        </ul>
+
+        <p class="hidden">
+            HTML 컨텐츠의 width, height 속성에 주어진 크기를 넘어가는 경우에 어떻게 처리할 것인지를 지정하는
+            속성이다.HTML 컨텐츠의 width, height 속성에 주어진 크기를 넘어가는 경우에 어떻게 처리할 것인지를 지정하는
+            속성이다.
+        </p>
+        <br />
+        <p class="visible">
+            HTML 컨텐츠의 width, height 속성에 주어진 크기를 넘어가는 경우에 어떻게 처리할 것인지를 지정하는
+            속성이다.HTML 컨텐츠의 width, height 속성에 주어진 크기를 넘어가는 경우에 어떻게 처리할 것인지를 지정하는
+            속성이다.
+        </p>
+        <br />
+        <p class="scroll">
+            HTML 컨텐츠의 width, height 속성에 주어진 크기를 넘어가는 경우에 어떻게 처리할 것인지를 지정하는
+            속성이다.HTML 컨텐츠의 width, height 속성에 주어진 크기를 넘어가는 경우에 어떻게 처리할 것인지를 지정하는
+            속성이다.
+        </p>
+        <br />
+        
+        <ul class='ul1'>
+            <li>AAAAAAAAAAAAAA</li>
+            <li>BBBBBBBBBBBBBB</li>
+            <li>CCCCCCCCCCCCCC</li>
+        </ul>
+        
+        <br>
+        
+        <div id='shadow_box'>
+            fdsfsd
+        </div>
+        
+        <br>
+        <hr>
+        <br>
+        
+        <p><span id='sp1'>텍스트 5초간 색상 변화 animation 구현</span></p>
+        
+        <br>
+        <hr>
+        <br>
+        
+        <span id='sp2'>전환 transition</span>
+        
+                <br>
+        <hr>
+        <br>
+        
+        <div id='trans' >변환 transform</div>
+        
+    </body>
+</html>

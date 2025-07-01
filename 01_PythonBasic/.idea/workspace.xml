@@ -4,7 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a60cc85d-093d-4594-8af3-da0ed32d898c" name="변경" comment="3" />
+    <list default="true" id="a60cc85d-093d-4594-8af3-da0ed32d898c" name="변경" comment="3">
+      <change beforePath="$PROJECT_DIR$/../03_FrontEnd/Web/test.html" beforeDir="false" afterPath="$PROJECT_DIR$/../03_FrontEnd/Web/test.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../03_FrontEnd/Web/test2.html" beforeDir="false" afterPath="$PROJECT_DIR$/../03_FrontEnd/Web/test2.html" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -45,46 +48,46 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ASKED_SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "ModuleVcsDetector.initialDetectionPerformed": "true",
-    "Python.DisplayManager.executor": "Run",
-    "Python.Enemy.executor": "Run",
-    "Python.GameManager.executor": "Run",
-    "Python.Item.executor": "Run",
-    "Python.Main.executor": "Run",
-    "Python.WhenIEndex.executor": "Run",
-    "Python.escape_game.executor": "Run",
-    "Python.ex250516.executor": "Run",
-    "Python.ex250604.executor": "Debug",
-    "Python.ex250605.executor": "Run",
-    "Python.ex250609.executor": "Run",
-    "Python.ex_250516.executor": "Run",
-    "Python.ex_250519.executor": "Run",
-    "Python.ex_250520.executor": "Run",
-    "Python.ex_250521.executor": "Run",
-    "Python.ex_250522.executor": "Run",
-    "Python.ex_250523.executor": "Run",
-    "Python.ex_250526.executor": "Run",
-    "Python.ex_250529.executor": "Run",
-    "Python.ex_250530.executor": "Run",
-    "Python.ex_250602.executor": "Run",
-    "Python.fdsf.executor": "Run",
-    "Python.main.executor": "Run",
-    "Python.mcnal_kiosk.executor": "Run",
-    "Python.monitor_coffee.executor": "Run",
-    "Python.salary_calculation.executor": "Run",
-    "Python.test.executor": "Run",
-    "Python.top_food.executor": "Run",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "main",
-    "ignore.virus.scanning.warn.message": "true",
-    "last_opened_file_path": "C:/Workspace/01_PythonBasic",
-    "settings.editor.selected.configurable": "preferences.keymap"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ASKED_SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
+    &quot;Python.DisplayManager.executor&quot;: &quot;Run&quot;,
+    &quot;Python.Enemy.executor&quot;: &quot;Run&quot;,
+    &quot;Python.GameManager.executor&quot;: &quot;Run&quot;,
+    &quot;Python.Item.executor&quot;: &quot;Run&quot;,
+    &quot;Python.Main.executor&quot;: &quot;Run&quot;,
+    &quot;Python.WhenIEndex.executor&quot;: &quot;Run&quot;,
+    &quot;Python.escape_game.executor&quot;: &quot;Run&quot;,
+    &quot;Python.ex250516.executor&quot;: &quot;Run&quot;,
+    &quot;Python.ex250604.executor&quot;: &quot;Debug&quot;,
+    &quot;Python.ex250605.executor&quot;: &quot;Run&quot;,
+    &quot;Python.ex250609.executor&quot;: &quot;Run&quot;,
+    &quot;Python.ex_250516.executor&quot;: &quot;Run&quot;,
+    &quot;Python.ex_250519.executor&quot;: &quot;Run&quot;,
+    &quot;Python.ex_250520.executor&quot;: &quot;Run&quot;,
+    &quot;Python.ex_250521.executor&quot;: &quot;Run&quot;,
+    &quot;Python.ex_250522.executor&quot;: &quot;Run&quot;,
+    &quot;Python.ex_250523.executor&quot;: &quot;Run&quot;,
+    &quot;Python.ex_250526.executor&quot;: &quot;Run&quot;,
+    &quot;Python.ex_250529.executor&quot;: &quot;Run&quot;,
+    &quot;Python.ex_250530.executor&quot;: &quot;Run&quot;,
+    &quot;Python.ex_250602.executor&quot;: &quot;Run&quot;,
+    &quot;Python.fdsf.executor&quot;: &quot;Run&quot;,
+    &quot;Python.main.executor&quot;: &quot;Run&quot;,
+    &quot;Python.mcnal_kiosk.executor&quot;: &quot;Run&quot;,
+    &quot;Python.monitor_coffee.executor&quot;: &quot;Run&quot;,
+    &quot;Python.salary_calculation.executor&quot;: &quot;Run&quot;,
+    &quot;Python.test.executor&quot;: &quot;Run&quot;,
+    &quot;Python.top_food.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Workspace/01_PythonBasic&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.keymap&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Workspace\01_PythonBasic\D016_" />
