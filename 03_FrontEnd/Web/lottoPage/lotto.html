@@ -1,0 +1,189 @@
+<!doctype html>
+<html lang="ko">
+    <head>
+        <meta charset="UTF-8" />
+        <title>lotto</title>
+        <style>
+            main {
+                height: 100%;
+                margin: 5%;
+                padding: 5%;
+            }
+            div.container {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                height: 100px;
+                padding: 20px;
+            }
+            .btn {
+                width: 100px;
+                height: 50px;
+                text-align: center;
+            }
+            .ball {
+                width: 100px;
+                height: 100px;
+                border-radius: 50%;
+            }
+            #ball-1 {
+                background-color: #0000ff;
+            }
+            #ball-2 {
+                background-color: #0000ff;
+            }
+            #ball-3 {
+                background-color: #0000ff;
+            }
+            #ball-4 {
+                background-color: #0000ff;
+            }
+            #ball-5 {
+                background-color: #0000ff;
+            }
+            #ball-6 {
+                background-color: #0000ff;
+            }
+            #ball-7 {
+                background-color: #0000ff;
+            }
+        </style>
+    </head>
+    <body>
+        <main>
+            <div class="container">
+                <img src="logo.png" style="" />
+            </div>
+            <div class="ball-rail">
+                <div class="ball" id="ball-1"></div>
+                <div class="ball" id="ball-2"></div>
+                <div class="ball" id="ball-3"></div>
+                <div class="ball" id="ball-4"></div>
+                <div class="ball" id="ball-5"></div>
+                <div class="ball" id="ball-6"></div>
+                <div class="ball" id="ball-7"></div>
+            </div>
+            <div class="container" id="buy-info">
+                <!--구매버튼-->
+                <button class="btn" id="buy-btn" onclick="onclickBuyBtn()">구매</button>
+            </div>
+
+            <div class="container" id="prize-info">
+                <!--당첨 조회 버튼-->
+                <button class="btn" id="check-btn" onclick="onclickResultBtn()">당첨 조회</button>
+            </div>
+        </main>
+
+        <script>
+            let balance = prompt("현재 소지한 금액을 입력해주세요: ");
+            const lttNumCnt = 7;
+            let lttArrays = new Array();
+            let winNums = genLttNums(lttNumCnt);
+
+            console.log(winNums);
+
+            // 구매 버튼 클릭시 동작 메서드
+            function onclickBuyBtn() {
+                checkBalance();
+                lttArrays.push(genLttNums(lttNumCnt));
+                console.log(lttArrays);
+            }
+
+            // 당첨 조회 버튼 클릭시 동작 메서드
+            function onclickResultBtn() {
+                // 등수별 당첨 횟수 배열
+                let pArry = checkNums();
+                let str = "";
+
+                for (let i = 0; i < pArry.length; i++) {
+                    str += i + 1 + "등 당첨 횟수 : " + pArry[i] + "\n";
+                }
+
+                // 다이얼로그로 등수 출력
+                confirm(str);
+            }
+
+            // 잔액 확인
+            function checkBalance() {
+                if (balance >= 1000) {
+                    balance -= 1000;
+                } else {
+                    confirm("잔액이 없습니다.");
+                    return;
+                }
+            }
+
+            // 당첨 번호와 현재 뽑은 번호 확인
+            function checkNums() {
+                let prizeArray = new Array(0, 0, 0, 0, 0);
+
+                for (let i = 0; i < lttArrays.length; i++) {
+                    let cnt = 0;
+                    let bonus = false;
+
+                    // 일반 번호 비교
+                    for (let j = 0; j < lttNumCnt - 1; j++) {
+                        if (lttArrays[i].find(findNum, winNums[j])) {
+                            cnt++;
+                        }
+                    }
+                    // 보너스 번호 비교
+                    if (lttArrays[i][lttNumCnt - 1] == winNums[lttNumCnt - 1]) {
+                        bonus = true;
+                    }
+
+                    // 일치하는 개수와 보너스 일치에 따라 등수 배열에 추가한다
+                    switch (cnt) {
+                        case 3:
+                            prizeArray[4]++;
+                            break;
+                        case 4:
+                            prizeArray[3]++;
+                            break;
+                        case 5:
+                            if (bonus) {
+                                prizeArray[1]++;
+                            } else {
+                                prizeArray[2]++;
+                            }
+                            break;
+                        case 6:
+                            prizeArray[0]++;
+                            break;
+                    }
+                }
+
+                return prizeArray;
+            }
+
+            // 배열의 find 함수에서 사용되는 콜백함수. 일치하는 숫자가 있는지 확인한다.
+            function findNum(num) {
+                if (num == this) {
+                    return true;
+                } else {
+                    return false;
+                }
+            }
+
+            document.getElementById();
+            Document.body.innerHTML();
+
+            // 로또 번호를 생성한다.
+            function genLttNums(numCnt) {
+                let lttNums = new Array();
+
+                for (let i = 0; i < numCnt; i++) {
+                    // 일단 랜덤 수를 0 ~ 50 사이의 수로 구한다
+                    let ranNum = Math.round((Math.random() * 100) / 2);
+
+                    // 랜덤 숫자가 1 ~ 45 사이의 숫자이고, 뽑은 숫자 중에 없을 때까지 반복한다
+                    while ((0 >= ranNum || ranNum > 45) && !lttNums.find(findNum, ranNum)) {
+                        ranNum = Math.round((Math.random() * 100) / 2);
+                    }
+                    lttNums.push(ranNum);
+                }
+                return lttNums;
+            }
+        </script>
+    </body>
+</html>

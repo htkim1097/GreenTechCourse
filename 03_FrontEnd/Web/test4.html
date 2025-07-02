@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="ko">
+    <head>
+        <meta charset="UTF-8" />
+        <title>Title</title>
+        <style>
+            * {
+                box-sizing: border-box;
+            }
+            body {
+                margin: 0;
+            }
+            .container {
+                display: flex;
+                flex-direction: row;
+                min-height: 100vh;
+            }
+            .sidebar {
+                width: 250px;
+                background-color: beige;
+                color: saddlebrown;
+                padding: 20px;
+            }
+            .main {
+                flex: 1;
+                background-color: bisque;
+                padding: 20px;
+            }
+            .header {
+                background-color: burlywood;
+                color: palegreen;
+                padding: 10px;
+                margin-bottom: 20px;
+            }
+            .toggle_btn {
+                display: none;
+                background-color: aqua;
+                color: chocolate;
+                border: 10px;
+                width: 100%;
+                font-size: 16px;
+                cursor: pointer;
+            }
+
+            @media (max-width: 1199px) {
+                .container {
+                    flex-direction: column;
+                }
+                .sidebar {
+                    width: 100%;
+                }
+            }
+            
+            @media (max-width: 768px) {
+                .sidebar {
+                    display: none;
+                }
+                .sidebar.show {
+                    display: block;
+                }
+                .toggle_btn {
+                    display: block;
+                }
+            }
+        </style>
+    </head>
+
+    <body>
+        <button class="toggle_btn" onclick="toggleSidebar()">메뉴 보기</button>
+
+        <div class="container">
+            <div class="sidebar" id="sidebar">
+                <h2>사이드바</h2>
+                <ul>
+                    <li>1</li>
+                    <li>2</li>
+                    <li>3</li>
+                </ul>
+            </div>
+
+            <div class="main">
+                <div class="header">헤더</div>
+                <div class="content">
+                    <h1>메인 컨텐츠</h1>
+                    <p>컨텐츠 내용 부분</p>
+                </div>
+            </div>
+        </div>
+
+        <script>
+            function toggleSidebar() {
+                var sidebar = document.getElementById("sidebar");
+                sidebar.classList.toggle("show");
+            }
+        </script>
+    </body>
+</html>
