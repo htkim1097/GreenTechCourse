@@ -27,19 +27,19 @@
                 border-radius: 50%;
             }
             #ball-1 {
-                background-color: #0000ff11;
+                background-color: #FFB737;
             }
             #ball-2 {
-                background-color: #0000ff;
+                background-color: #4087F1;
             }
             #ball-3 {
-                background-color: #0000ff;
+                background-color: #DD5A3C;
             }
             #ball-4 {
-                background-color: #0000ff;
+                background-color: #777C82;
             }
             #ball-5 {
-                background-color: #0000ff;
+                background-color: #39C033;
             }
             #ball-6 {
                 background-color: #0000ff;
@@ -54,23 +54,17 @@
             <div class="container">
                 <img src="logo.png" style="" />
             </div>
-            <div class="ball-rail">
-                <div class="ball" id="ball-1"></div>
-                <div class="ball" id="ball-2"></div>
-                <div class="ball" id="ball-3"></div>
-                <div class="ball" id="ball-4"></div>
-                <div class="ball" id="ball-5"></div>
-                <div class="ball" id="ball-6"></div>
-                <div class="ball" id="ball-7"></div>
+            <div id="ball_cont">
+
             </div>
-            <div class="container" id="buy-info">
+            <div class="container">
                 <!--구매버튼-->
-                <button class="btn" id="buy-btn" onclick="onclickBuyBtn()">구매</button>
+                <button class="btn" onclick="onclickBuyBtn()">구매</button>
             </div>
 
-            <div class="container" id="prize-info">
+            <div class="container">
                 <!--당첨 조회 버튼-->
-                <button class="btn" id="check-btn" onclick="onclickResultBtn()">당첨 조회</button>
+                <button class="btn" onclick="onclickShowResultBtn()">당첨 조회</button>
             </div>
         </main>
 
@@ -84,13 +78,16 @@
 
             // 구매 버튼 클릭시 동작 메서드
             function onclickBuyBtn() {
-                checkBalance();
-                lttArrays.push(genLttNums(lttNumCnt));
-                console.log(lttArrays);
+                if (checkBalance()){
+                    lttArrays.push(genLttNums(lttNumCnt));
+                    animateBall(numArr);
+
+                    //console.log(lttArrays);
+                }
             }
 
             // 당첨 조회 버튼 클릭시 동작 메서드
-            function onclickResultBtn() {
+            function onclickShowResultBtn() {
                 // 등수별 당첨 횟수 배열
                 let pArry = checkNums();
                 let str = "";
@@ -107,10 +104,51 @@
             function checkBalance() {
                 if (balance >= 1000) {
                     balance -= 1000;
+                    return true;
                 } else {
                     confirm("잔액이 없습니다.");
-                    return;
+                    return false;
                 }
+            }
+
+            function animateBall(numArr){
+                const ball_cont = document.getElementById("ball_cont");
+
+                // div 생성
+                for (let i = 0; i < lttNumCnt; i++){
+                    let num = numArr[i];
+                    let ballColor = "";
+                    const ball = document.createElement('div');
+
+                    if (num >= 40){
+                        ballColor = "#FFB737"
+                    }
+                    else if (num >= 30){
+                        ballColor = "#777C82"
+                    }
+                    else if (num >= 20){
+
+                    }
+                    else if (num >= 10){
+                        
+                    }
+                    else if (num >= 1){
+                        ballColor = "#";
+                    }
+
+                    let htmlString = ""
+
+                    ball.innerHTML = htmlString;
+
+                }
+                // div 공으로 만들기
+
+                // 추가
+                ball_cont.appendChild();
+
+                document.body.innerHTML();
+                // innerHTML
+                // 볼 굴러오기?
             }
 
             // 당첨 번호와 현재 뽑은 번호 확인
@@ -164,9 +202,6 @@
                     return false;
                 }
             }
-
-            document.getElementById();
-            Document.body.innerHTML();
 
             // 로또 번호를 생성한다.
             function genLttNums(numCnt) {
