@@ -181,40 +181,88 @@
             //account.getBalance();
             //account.getAccountInfo();
 
-            let account = {
-                owner: "이름",
-                code: "123123",
-                balance: 50000,
-                inquiry: function () {
-                    return this.balance;
-                },
-                deposit: function (value) {
-                    this.money += value;
-                },
-                withdraw: function (value) {
-                    if (this.money >= value) {
-                        this.money -= value;
-                    }
-                },
-                getInfo: function () {
-                    return (
-                        "계좌정보\n" +
-                        "예금주: " +
-                        this.name +
-                        "\n" +
-                        "계좌번호: " +
-                        this.code +
-                        "\n" +
-                        "잔액: " +
-                        this.balance + "\n"
-                    );
-                }
-            };
+            //let account = {
+            //    owner: "이름",
+            //    code: "123123",
+            //    balance: 50000,
+            //    inquiry: function () {
+            //        return this.balance;
+            //    },
+            //    deposit: function (value) {
+            //        this.money += value;
+            //    },
+            //    withdraw: function (value) {
+            //        if (this.money >= value) {
+            //            this.money -= value;
+            //        }
+            //    },
+            //    getInfo: function () {
+            //        return (
+            //            "계좌정보\n" +
+            //            "예금주: " +
+            //            this.name +
+            //            "\n" +
+            //            "계좌번호: " +
+            //            this.code +
+            //            "\n" +
+            //            "잔액: " +
+            //            this.balance + "\n"
+            //        );
+            //    }
+            //};
+            //
+            //document.write(account.getInfo());
+            //account.deposit(10000);
+            //account.withdraw(3000);
+            //document.write(account.getInfo());
+            //
+            //function Student(name, score){
+            //    this.univ = "대학교";
+            //    this.name = "이름";
+            //    this.score = score;
+            //    this.getGrader = function(){
+            //        if (this.score >= 80)
+            //            return "A";
+            //        else if (this.score >70){
+            //            return "B";
+            //        }
+            //        else{
+            //            return "F";
+            //        }
+            //    }
+            //}
+            //
+            //let stu_A = new Student("a학생", 40);
+            //let stu_A = new Student("b학생", 80);
+        </script>
 
-            document.write(account.getInfo());
-            account.deposit(10000);
-            account.withdraw(3000);
-            document.write(account.getInfo());
+        <div id="div1" style="color: blue;">123123</div>
+
+        <script>
+            let mydiv = document.getElementById("div1");
+            let value = mydiv.innerHTML;
+            let mystyle = new String(mydiv.style.cssText);
+            
+            console.log(mydiv.style);
+
+            document.write("<button onclick='c()'>변경</button>");
+            function c() {
+                mydiv.style.color = "green";
+                mydiv.style.display = "inline-block";
+                mydiv.style.width = "6em";
+            }
+
+            document.write("<button onclick = 'cc()'>내용변경</button>");
+            function cc() {
+                mydiv.innerHTML = "fdsfsdf";
+            }
+
+            document.write("<button onclick = 'ccc()'>초기화</button>");
+            function ccc() {
+                console.log(mystyle);
+                mydiv.style.cssText = mystyle;
+                mydiv.innerHTML = value;
+            }
         </script>
     </body>
 </html>
