@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="ko">
+    <head>
+        <meta charset="UTF-8" />
+        <title>Title</title>
+        <style>
+            .container {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                height: 200px;
+                background-color: aqua;
+                padding: 20px;
+            }
+
+            .item {
+                background-color: blueviolet;
+                color: white;
+                padding: 20px;
+                border-radius: 10px;
+                flex: 1px;
+                margin: 10px;
+                text-align: center;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <div class="item">박스1</div>
+            <div class="item">박스2</div>
+            <div class="item">박스3</div>
+        </div>
+
+        <br />
+        <hr />
+        <br />
+
+        <img
+            width="300px"
+            src="resource/cat1.jpg"
+            onmouseover="this.src='resource/cat2.jpg'"
+            onmouseout="this.src='resource/cat1.jpg'" />
+
+        <br />
+        <hr />
+        <br />
+
+        <img width="300px" src="resource/cat1.jpg" onmouseover="over(this)" onmouseout="out(this)" />
+
+        <br />
+        <hr />
+        <br />
+
+        <a href="javascript:alert('경고창')">URL 링크 클릭</a>
+
+        <br />
+        <hr />
+        <br />
+
+        <div style="width: 100px; height: 100px; border: solid 1px black; text-align: center" onclick="add_div_box()">
+            추가
+        </div>
+
+        <script>
+            function add_div_box() {
+                document.write("<div style='width: 100px; height: 100px; border: solid 1px black; text-align: center'>추가된 박스</div>");
+            }
+        </script>
+
+        <script src="js1.js"></script>
+    </body>
+</html>

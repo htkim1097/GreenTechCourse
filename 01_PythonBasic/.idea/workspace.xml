@@ -5,8 +5,20 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a60cc85d-093d-4594-8af3-da0ed32d898c" name="변경" comment="3">
-      <change beforePath="$PROJECT_DIR$/../03_FrontEnd/Web/test.html" beforeDir="false" afterPath="$PROJECT_DIR$/../03_FrontEnd/Web/test.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../03_FrontEnd/Web/test2.html" beforeDir="false" afterPath="$PROJECT_DIR$/../03_FrontEnd/Web/test2.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../02_DataAnalysis/test/test.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/../02_DataAnalysis/test/test.ipynb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../03_FrontEnd/Web/card_css.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../03_FrontEnd/Web/js1.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../03_FrontEnd/Web/lottoPage/lottoScript.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../03_FrontEnd/Web/my_card.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../03_FrontEnd/Web/my_wiki.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../03_FrontEnd/Web/naver_list.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../03_FrontEnd/Web/naver_list_style.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../03_FrontEnd/Web/test.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../03_FrontEnd/Web/test2.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../03_FrontEnd/Web/test3.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../03_FrontEnd/Web/test4.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../03_FrontEnd/Web/test5.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../03_FrontEnd/Web/test_css.css" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

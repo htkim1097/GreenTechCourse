@@ -10,7 +10,7 @@ class GameManager:
         self.__enemy_pos_lst = []
         self.__message_list = []
         self.__max_message = 8
-        self.__player_sight = 20
+        self.__player_sight = 3
         self.__player_sight_shape = 1
         self.__map_manager = MapManager.R_Map(self.__map_w, self.__map_h)
         self.__map_data = []
@@ -47,7 +47,7 @@ class GameManager:
                 dx = abs(self.__player_pos[0] - x + 1)
                 dy = abs(self.__player_pos[1] - y + 1)
 
-                if self.__map_data[y][x] == ObjId.ROAD and dx + dy <= self.__player_sight + 3:
+                if self.__map_data[y][x] == ObjId.ROAD and dx + dy > self.__player_sight + 3:
                     tmp_lst.append((x, y))
 
         return tmp_lst

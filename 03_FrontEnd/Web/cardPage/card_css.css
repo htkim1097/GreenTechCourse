@@ -1,0 +1,48 @@
+.card {
+    width: 140px;
+    height: 190px;
+    background-image: url(resource/card/card-game-48983_640.png);
+    background-size: 140px;
+    position: fixed;
+    padding: 3px;
+}
+
+#c1 {
+    z-index: 1;
+}
+#c2 {
+    left: 70px;
+    top: 70px;
+    z-index: 2;
+}
+#c3 {
+    left: 120px;
+    top: 120px;
+    z-index: 3;
+}
+#c4 {
+    left: 170px;
+    top: 170px;
+    z-index: 4;
+}
+#c5 {
+    left: 220px;
+    top: 220px;
+    z-index: 5;
+}
+
+#c1:hover {
+    background-image: url(resource/card/1.png);
+}
+#c2:hover {
+    background-image: url(resource/card/2.png);
+}
+#c3:hover {
+    background-image: url(resource/card/3.png);
+}
+#c4:hover {
+    background-image: url(resource/card/4.png);
+}
+#c5:hover {
+    background-image: url(resource/card/5.png);
+}
