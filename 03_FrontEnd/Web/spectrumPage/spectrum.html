@@ -1,0 +1,109 @@
+<!doctype html>
+<!--
+prompt로 참여자 이름을 , 구분하여 여러명 입력한다.(최소 2명 이상 15명 이하)
+이름을 먼저 입력한 전체 사람 이름을 배열에 담고
+HTML 문서에 가로 너비가 브라우저 뷰포트를 100% 가까이 채울수 있도록 긴 박스를 생성한다.
+박스는 참여자 수에 맞게 칸이 나뉘어 있고, 박스 아래에는 '시작'버튼이 있다.
+
+시작 버튼을 누르면 좌~우로 긴 스펙트럼 박스 구간 중 랜덤 위치에 화살표가 생성되어 당첨자를 고른다.
+-->
+<html lang="ko">
+    <head>
+        <meta charset="UTF-8" />
+        <title>Spectrum</title>
+        <style>
+            body {
+            }
+            #sp_cont {
+            }
+            #spectrum {
+                width: 100%;
+                height: 200px;
+                border: solid 2px;
+                display: flex;
+                background-color: azure;
+            }
+            #arrow_box {
+                width: 100%;
+                height: 100px;
+                margin: 3px;
+            }
+            #btn {
+                width: 200px;
+                height: 50px;
+                position: relative;
+                left: 50%;
+                margin-left: -100px;
+            }
+            #arrow {
+                position: absolute;
+                transition: left 1s;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="sp_cont">
+            <div id="spectrum"></div>
+            <div id="arrow_box">
+                <img id="arrow" src="arrow.png" height="100px" />
+            </div>
+        </div>
+
+        <button id="btn" onclick="onclickStart()">시작</button>
+
+        <script>
+            let names = prompt("참여자 이름을 ','로 구분하여 입력해주세요");
+            let nameArr = names.split(",");
+            let colors = new Array(
+                "blue",
+                "red",
+                "aqua",
+                "black",
+                "coral",
+                "cornflowerblue",
+                "darkorchid",
+                "darkslategrey",
+                "#aa7575",
+                "#6061ba",
+                "burlywood",
+                "cadetblue",
+                "darksalmon",
+                "deeppink",
+                "#56b5b6"
+            );
+
+            const spectrum_box = document.getElementById("spectrum");
+            const arrow_box = document.getElementById("arrow_box");
+            const img = document.getElementById("arrow");
+            
+            img.style.left = 0;
+
+            for (let i = 0; i < nameArr.length; i++) {
+                const div = document.createElement("div");
+                div.style.height = "100%";
+                div.style.backgroundColor = colors[i];
+                div.style.flex = "1";
+                div.style.fontSize = "20px";
+                div.style.color = "white";
+                div.style.textAlign = "center";
+
+                div.innerHTML = nameArr[i];
+
+                spectrum_box.appendChild(div);
+            }
+
+            function onclickStart() {
+                let num = Math.floor(Math.random() * nameArr.length);
+
+                for (let i = 0; i < nameArr.length; i++) {
+                    if (spectrum_box.children[i].innerHTML == nameArr[num]) {
+                        img.style.left =
+                            ((spectrum_box.children[num].offsetLeft +
+                                (spectrum_box.children[num].offsetWidth / 2 - img.offsetWidth / 2)) /
+                                document.body.clientWidth) * 100 + "%";
+                    }
+                }
+            }
+        </script>
+    </body>
+</html>

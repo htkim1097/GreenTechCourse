@@ -1,0 +1,224 @@
+<!doctype html>
+<html lang="ko">
+    <head>
+        <meta charset="UTF-8" />
+        <title>Title</title>
+        <style>
+            #user_in {
+                width: 300px;
+                height: 80px;
+                display: block;
+                border: solid 1px;
+                align-content: center;
+            }
+
+            .cont {
+                align-items: center;
+                justify-content: center;
+                margin: 5px;
+                padding: 5px;
+            }
+
+            #gameBoard {
+                display: none;
+            }
+
+            .board {
+                width: 100px;
+                height: 100px;
+                border: solid 2px black;
+                display: inline-block;
+                align-content: center;
+            }
+
+            .user_cont .board:hover {
+                background-color: aqua;
+            }
+
+            .img {
+                width: 80px;
+                height: 80px;
+            }
+        </style>
+    </head>
+    <body>
+        <!--플레이어 등록-->
+        <div id="user_in">
+            <form name="user_login" method="get">
+                플레이어 이름 : <input id="user_name" type="text" size="20" value="" />
+                <input type="button" value="확인" onclick="onclickUserLogin()" />
+            </form>
+        </div>
+
+        <!--게임장-->
+        <div id="gameBoard" class="cont">
+            <div>
+                <div>연속으로 이긴 횟수 :</div>
+                <div id="score">0</div>
+            </div>
+            <div class="user_cont">
+                <div class="board"><img class="img" onclick="onclickPlaySRP(0)" src="resource/s.png" /></div>
+                <div class="board"><img class="img" onclick="onclickPlaySRP(1)" src="resource/r.png" /></div>
+                <div class="board"><img class="img" onclick="onclickPlaySRP(2)" src="resource/p.png" /></div>
+            </div>
+
+            <div class="com_cont">
+                <div>컴퓨터</div>
+                <div id="com" class="board"></div>
+            </div>
+        </div>
+
+        <script>
+            function User() {
+                this.name = "";
+                this.score = 0;
+            }
+
+            let userArr = new Array();
+            let nowUser;
+
+            function onclickPlaySRP(num) {
+                let com = genRandomNum();
+                setComImg(com);
+
+                let res = getSrpResult(num, com);
+
+                // 이긴 경우
+                if (res == 1) {
+                    let score_board = document.getElementById("score");
+                    let score = parseInt(score_board.innerHTML);
+                    score++;
+
+                    nowUser.score = score;
+                    score_board.innerHTML = score;
+
+                    confirm("이겼습니다.");
+                } else if (res == 0) {
+                    confirm("비겼습니다.");
+                } else {
+                    confirm("졌습니다.");
+
+                    // 최고 기록 점수 갱신
+                    let s = document.getElementById("score").innerHTML;
+                    if (nowUser.score < s) {
+                        for (let i = 0; i < userArr.length; i++) {
+                            if (userArr[i]["name"] == nowUser["name"]) {
+                                userArr[i]["score"] = s;
+                            }
+                        }
+                    }
+
+                    let lankingStr = "랭킹\n\n";
+                    
+                    userArr.sort((a, b) => b.score - a.score);
+                    
+                    let maxLank = 5
+                    if (userArr.length < 5){
+                        maxLank = userArr.length;
+                    }
+                    
+                    for (let i = 0; i < maxLank; i++){
+                        lankingStr += (i + 1) + "위. " + userArr[i].name + " " + userArr[i].score + "점\n";
+                    }
+
+                    confirm(lankingStr);
+
+                    // 게임 리셋
+                    toggleView(false);
+                }
+            }
+
+            // 플레이어 이름 입력 확인 버튼
+            function onclickUserLogin() {
+                const name = document.getElementById("user_name");
+                let hasUser = false;
+
+                nowUser = new User();
+
+                // 플레이어가 있으면 현재 플레이어로 설정
+                for (let i = 0; i < userArr.length; i++) {
+                    //console.log(userArr[i]["name"]);
+                    //console.log(user_name.value);
+
+                    if (userArr[i]["name"] == user_name.value) {
+                        nowUser.name = userArr[i].name;
+                        nowUser.score = userArr[i].score;
+                        hasUser = true;
+                        break;
+                    }
+                }
+
+                // 플레이어 배열 안에 없으면 추가
+                if (!hasUser) {
+                    nowUser.name = name.value;
+                    nowUser.score = 0;
+
+                    userArr.push(nowUser);
+                }
+
+                console.log("유저 목록:   " + userArr);
+                console.log("현재 유저:   " + nowUser["name"]);
+
+                toggleView(true);
+            }
+
+            function toggleView(isGameView) {
+                if (isGameView) {
+                    // 로그인 화면 보이기
+                    const loginDiv = document.getElementById("user_in");
+                    loginDiv.style.display = "none";
+
+                    // 게임 보드 안 보이게
+                    const gameDiv = document.getElementById("gameBoard");
+                    gameDiv.style.display = "block";
+                } else {
+                    // 로그인 화면 보이기
+                    const nameDiv = document.getElementById("user_name");
+                    nameDiv.value = "";
+
+                    document.getElementById("score").innerHTML = 0;
+
+                    const loginDiv = document.getElementById("user_in");
+                    loginDiv.style.display = "block";
+
+                    // 게임 보드 안 보이게
+                    const gameDiv = document.getElementById("gameBoard");
+                    gameDiv.style.display = "none";
+                }
+            }
+
+            // 가위(0), 바위(1), 보(2)
+            function getSrpResult(user, com) {
+                // 0 2
+                // 1 0
+                // 2 1
+                if ((user == 0 && com == 2) || (user == 1 && com == 0) || (user == 2 && com == 1)) {
+                    return 1;
+                } else if (user == com) {
+                    return 0;
+                } else {
+                    return -1;
+                }
+            }
+
+            function setComImg(num) {
+                const div = document.getElementById("com");
+                let imgPath = "";
+
+                if (num == 0) {
+                    imgPath = new String("resource/s.png");
+                } else if (num == 1) {
+                    imgPath = new String("resource/r.png");
+                } else if (num == 2) {
+                    imgPath = new String("resource/p.png");
+                }
+
+                div.innerHTML = `<img class="img" src="${imgPath}">`;
+            }
+
+            function genRandomNum() {
+                return Math.floor(Math.random() * 3);
+            }
+        </script>
+    </body>
+</html>
