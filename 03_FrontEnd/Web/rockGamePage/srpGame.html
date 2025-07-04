@@ -73,6 +73,10 @@
             let userArr = new Array();
             let nowUser;
             
+            function onclickPlaySRP(){
+                
+            }
+            
 
             // 플레이어 이름 입력 확인 버튼
             function onclickUserLogin() {
@@ -87,8 +91,8 @@
                     //console.log(user_name.value);
                     
                     if (userArr[i]["name"] == user_name.value) {
-                        nowUser.name = userArr[i]["name"];
-                        nowUser.score = userArr[i]["score"];
+                        nowUser.name = userArr[i].name;
+                        nowUser.score = userArr[i].score;
                         hasUser = true;
                         break;
                     }
@@ -119,7 +123,7 @@
                     imgPath = new String("resource/p.png");
                 }
                 
-                div.innerHTML = '<img class="img" src="' + imgPath + '">';
+                div.innerHTML = `<img class="img" src="${imgPath}">`;
             }
             
             function genRandomNum(){
