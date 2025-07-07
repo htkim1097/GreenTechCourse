@@ -1,0 +1,220 @@
+<!doctype html>
+<html lang="ko">
+    <head>
+        <meta charset="UTF-8" />
+        <title>Adidas</title>
+        <style>
+            body {
+                margin: 0;
+                display: flex;
+                height: 100%;
+                flex-direction: column;
+                min-height: 100vh;
+            }
+
+            #header {
+                height: 120px;
+                background-color: coral;
+            }
+            #header_black {
+                background-color: black;
+            }
+            #header_small_bar {
+                font-size: 12px;
+                display: flex;
+                justify-content: end;
+            }
+            .header_small_bar_item {
+                padding-right: 20px;
+            }
+            #header_main {
+                display: flex;
+            }
+            #header_main_menu {
+                flex: 1;
+            }
+            #header_main_menu_list {
+                list-style-type: none;
+                position: relative;
+                left: 0px;
+                top: 14px;
+                justify-self: center;
+                font-size: 13px;
+            }
+            #header_main_menu_list > li {
+                display: inline-block;
+                margin-left: 10px;
+            }
+            #header_buttons {
+                display: flex;
+                margin-right: 10px;
+                margin-top: 15px;
+                padding: 10px;
+                align-self: center;
+                width: 300px;
+            }
+            .header_buttons_icon {
+                margin-right: 17px;
+            }
+
+            #main {
+                flex: 1;
+                background-color: gray;
+                display: flex;
+            }
+            #images {
+                display: inline-block;
+                background-color: indianred;
+                flex: 1;
+            }
+            #side {
+                display: inline-block;
+                background-color: dodgerblue;
+                width: 280px;
+                margin: 10px;
+                padding: 20px;
+            }
+        </style>
+    </head>
+
+    <body>
+        <!--헤더-->
+        <div id="header">
+            <!--검은색 영역-->
+            <div id="header_black" style="width: 100%; height: 40px"></div>
+
+            <!--우측 도움말, 주문 및 반품 등-->
+            <div id="header_small_bar">
+                <!--도움말-->
+                <div class="header_small_bar_item">도움말</div>
+                <!--주문 및 반품-->
+                <div class="header_small_bar_item">주문 및 반품</div>
+                <!--아디클럽-->
+                <div class="header_small_bar_item">아디클럽 가입하기</div>
+            </div>
+
+            <!--메뉴 부분-->
+            <div id="header_main">
+                <!--로고-->
+                <div><img src="resource/Logo.png" width="60" style="position: relative; left: 20px; top: -5px" /></div>
+                <!--상단 메뉴바-->
+                <div id="header_main_menu">
+                    <ul id="header_main_menu_list">
+                        <!--shoes-->
+                        <li><b>SHOES</b></li>
+                        <!--men-->
+                        <li><b>MEN</b></li>
+                        <!--women-->
+                        <li><b>WOMEN</b></li>
+                        <!--kids-->
+                        <li><b>KIDS</b></li>
+                        <!--sports-->
+                        <li><b>SPORTS</b></li>
+                        <!--lifestyle-->
+                        <li>LIFESTYLE</li>
+                        <!--outlet-->
+                        <li>OUTLET</li>
+                    </ul>
+                </div>
+                <!--로그인, 검색 등-->
+                <div id="header_buttons">
+                    <!--검색창-->
+                    <div>
+                        <input type="text" style="width: 82%; height: 25px; border: none; border-radius: 4px" />
+                        <a
+                            ><img
+                                src="resource/search.png"
+                                width="24"
+                                style="position: relative; left: 113px; top: -24px"
+                        /></a>
+                    </div>
+                    <!--로그인-->
+                    <div class="header_buttons_icon"><img src="resource/user.png" width="28" /></div>
+                    <!--위시리스트-->
+                    <div class="header_buttons_icon"><img src="resource/like.png" width="28" /></div>
+                    <!--장바구니-->
+                    <div class="header_buttons_icon"><img src="resource/cart.png" width="26" /></div>
+                </div>
+            </div>
+        </div>
+
+        <!--메인 컨텐츠-->
+        <main id="main">
+            <!--상품 이미지-->
+            <div id="images">
+                <!--뒤로가기 네비게이션-->
+                <div></div>
+                <!--신발 이미지들-->
+                <div>
+                    <!--확대 이미지-->
+                    <div></div>
+                    <!--동영상-->
+                    <div></div>
+                </div>
+            </div>
+
+            <!--상품 정보-->
+            <div id="side">
+                <!--남성 running-->
+                <div style="display: flex">
+                    <div>남성 • Running</div>
+                    <div style="right: 10px; position: relative; right: -90px; font-size: 13px">★★★★★ 86</div>
+                </div>
+                <!--듀라모-->
+                <div>듀라모</div>
+                <!--가격-->
+                <div>59,000 원</div>
+                <!--원가-->
+                <div>79,000 원 정상가 -25%</div>
+                <!--지금 주목받는 제품-->
+                <div style="font-size: 14px; padding: 10px; display: flex">
+                    <img src="resource/star.png" width="19" height="19" />
+                    <div style="margin-left: 2px">지금 주목받는 제품! 실시간 인기 제품을 놓치지 마세요.</div>
+                </div>
+                <!--색상-->
+                <div style="font-size: 14px; margin-top: 30px; margin-bottom: 30px">
+                    Core Black / Cloud White / Carbon
+                </div>
+                <!--구입 가능한 사이즈-->
+                <div style="display: flex">
+                    <!--구입 가능한 사이즈-->
+                    <div>구입 가능한 사이즈</div>
+                    <!--사이즈 가이드-->
+                    <div style="display: flex; margin-left: 30px">
+                        <img src="resource/ruler.png" width="30" />
+                        <div>사이즈 가이드</div>
+                    </div>
+                </div>
+                <!--사이즈-->
+                <div>
+                    <ul>
+                        <li>240</li>
+                        <li>270</li>
+                    </ul>
+                </div>
+                <!--정사이즈입니다.-->
+                <div>
+                    <img />
+                    <div>정사이즈입니다.평소에 구매하는 사이즈와 동일하게 선택하시는 것을 추천해 드립니다.</div>
+                </div>
+                <!--장바구니 담기-->
+                <div>
+                    <!--장바구니 담기 버튼-->
+                    <!--위시리스트 버튼-->
+                </div>
+                <!--다른 추천 제품 보기-->
+                <div></div>
+                <!--배송/반품/교환-->
+                <div></div>
+                <!--세탁 및 취급 시-->
+                <div></div>
+                <!--품질보증-->
+                <div></div>
+                <!--상품 제조연월-->
+                <div></div>
+            </div>
+        </main>
+
+        <script></script>
+    </body>
+</html>

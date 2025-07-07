@@ -1,0 +1,152 @@
+<!doctype html>
+<html lang="ko">
+    <head>
+        <title></title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <style>
+            * {
+                /*컨텐츠 + 보더로 사이즈 설정*/
+                box-sizing: border-box;
+            }
+
+            .img-zoom-container {
+                /*부모 요소에 relative는 자식요소의 absolute 설정을 받기 위해서 
+                 * 만약 부모 요소에 relative를 주지 않으면 자식요소는 body 기준으로 위치가 조절됨. */
+                position: relative;
+            }
+
+            .img-zoom-lens {
+                
+                position: absolute;
+                border: 1px solid #d4d4d4;
+                /*set the size of the lens:*/
+                width: 40px;
+                height: 40px;
+            }
+
+            .img-zoom-result {
+                border: 1px solid #d4d4d4;
+                /*set the size of the result div:*/
+                width: 300px;
+                height: 300px;
+            }
+        </style>
+        <script>
+            function imageZoom(imgID, resultID) {
+                // imgID : img 요소
+                // resultID : 결과창 DIV
+                
+                var img, lens, result, cx, cy;
+                
+                img = document.getElementById(imgID);
+                result = document.getElementById(resultID);
+                
+                // 렌즈 div 생성
+                lens = document.createElement("DIV");
+                lens.setAttribute("class", "img-zoom-lens");
+                
+                // 부모 요소에 렌즈 추가
+                img.parentElement.insertBefore(lens, img);
+                
+                // 결과창과 렌즈의 비율 계산
+                cx = result.offsetWidth / lens.offsetWidth;
+                cy = result.offsetHeight / lens.offsetHeight;
+                
+                // 원본 이미지를 결과창 배경으로 설정
+                result.style.backgroundImage = "url('" + img.src + "')";
+                // 원본 이미지를 렌즈 비율로 축소
+                result.style.backgroundSize = img.width * cx + "px " + img.height * cy + "px";
+                
+                /*execute a function when someone moves the cursor over the image, or the lens:*/
+                lens.addEventListener("mousemove", moveLens);
+                img.addEventListener("mousemove", moveLens);
+                
+                ///*and also for touch screens:*/
+                //lens.addEventListener("touchmove", moveLens);
+                //img.addEventListener("touchmove", moveLens);
+                
+                // e는 마우스 이벤트 객체
+                function moveLens(e) {
+                    var pos, x, y;
+                    
+                    // 마우스를 이동할 때 부모의 다른 액션이 일어나는 것을 방지.
+                    e.preventDefault();
+                    
+                    /*get the cursor's x and y positions:*/
+                    pos = getCursorPos(e);
+                    
+                    /*calculate the position of the lens:*/
+                    x = pos.x - lens.offsetWidth / 2;
+                    y = pos.y - lens.offsetHeight / 2;
+                    
+                    /*prevent the lens from being positioned outside the image:*/
+                    if (x > img.width - lens.offsetWidth) {
+                        x = img.width - lens.offsetWidth;
+                    }
+                    if (x < 0) {
+                        x = 0;
+                    }
+                    if (y > img.height - lens.offsetHeight) {
+                        y = img.height - lens.offsetHeight;
+                    }
+                    if (y < 0) {
+                        y = 0;
+                    }
+                    
+                    /*set the position of the lens:*/
+                    lens.style.left = x + "px";
+                    lens.style.top = y + "px";
+                    
+                    /*display what the lens "sees":*/
+                    result.style.backgroundPosition = "-" + x * cx + "px -" + y * cy + "px";
+                }
+                
+                function getCursorPos(e) {
+                    var a,
+                        x = 0,
+                        y = 0;
+                    
+                    // 구형 브라우저에 대한 호환성 때문에 넣은 것. 없어도 됨.
+                    // e = e || window.event;
+                    
+                    /*get the x and y positions of the image:*/
+                    a = img.getBoundingClientRect();
+                    
+                    // pageX, pageY는 페이지에서 마우스의 위치 값
+                    // 마우스 좌표를 이미지의 좌상단 기준으로 위치 값 설정
+                    /*calculate the cursor's x and y coordinates, relative to the image:*/
+                    x = e.pageX - a.left;
+                    y = e.pageY - a.top;
+                    
+                    /*consider any page scrolling:*/
+                    // 페이지 스크롤링에 따라 고려
+                    x = x - window.pageXOffset;
+                    y = y - window.pageYOffset;
+                    return { x: x, y: y };
+                }
+            }
+        </script>
+    </head>
+    <body>
+        <h1>Image Zoom</h1>
+
+        <p>Mouse over the image:</p>
+
+        <div class="img-zoom-container">
+            <img id="myimage" src="img_girl.jpg" width="300" height="240" />
+            <div id="myresult" class="img-zoom-result"></div>
+        </div>
+
+        <p>The image must be placed inside a container with relative positioning.</p>
+        <p>The result can be put anywhere on the page, but must have the class name "img-zoom-result".</p>
+        <p>
+            Make sure both the image and the result have IDs. These IDs are used when a javaScript initiates the zoom
+            effect.
+        </p>
+
+        <script>
+            // 이 script가 main과 같은 것.
+            imageZoom("myimage", "myresult");
+        </script>
+    </body>
+</html>
