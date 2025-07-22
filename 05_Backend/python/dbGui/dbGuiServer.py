@@ -3,42 +3,53 @@ import socket
 import threading
 
 def send_query(query):
-    conn = pymysql.connect(
-        host="192.168.0.41",
-        port=8080,
-        user="root",
-        password="0000",
-        charset="utf8"
-    )
+    try:
+        conn = pymysql.connect(
+            host="localhost",
+            port=3306,
+            user="root",
+            password="0000",
+            charset="utf8",
+            database=None
+        )
 
-    cur = conn.cursor()
+        cur = conn.cursor()
 
-    # 테이블 데이터 조회
-    cur.execute(query)
-    data = cur.fetchall()
-    conn.close()
+        # 테이블 데이터 조회
+        cur.execute(query)
+        db_data = cur.fetchall()
+        conn.commit()
+        conn.close()
 
-    return data
+        data = ""
+        for d in db_data:
+            data += f"{d[0]},"
+
+        return data
+    except:
+        print("send_query() 오류")
+        return None
 
 def handle_client(client_socket, address):
     print(f"연결: {address}")
     try:
         while True:
-            cli_data = client_socket.recv(1024)
+            cli_data = client_socket.recv(1024).decode()
             if not cli_data:
                 break
-
+            print(cli_data)
             db_data = send_query(cli_data)
+            print(db_data)
 
-            client_socket.send(db_data)
-    except:
-        print("에러 발생")
+            client_socket.sendall(db_data.encode())
+    except Exception as e:
+        print("에러 발생", e)
     finally:
         client_socket.close()
 
 def start_server():
     server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    server.bind(("192.168.0.62", 8080))
+    server.bind(("localhost", 8080))
 
     server.listen()
     print("서버 시작")

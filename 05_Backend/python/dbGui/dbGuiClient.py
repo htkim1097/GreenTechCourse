@@ -14,46 +14,30 @@ ACTION_TYPE_LIST = {
     2: "삭제"
 }
 
-client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+client_socket = None
 
-def connect_db_server(msg):
-    global client_socket
-    client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    client_socket.connect(("192.168.0.41", 8080))
-
+def connect_db_server(address, port):
     try:
-        while True:
-            msg = input("서버에 보낼 메시지: ")
-            if msg.lower() == "exit":
-                break
-
-            client_socket.send(msg.encode())
-
-            data = client_socket.recv(1024)  # 보레이트 : 1kb 씩 송수신
-            print("서버로부터 받은 데이터: ", data.decode())
-
-            show_treeview(data)
+        global client_socket
+        client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        client_socket.connect((address, port))
     except:
         print("connect_db_server() 오류")
-    finally:
         client_socket.close()
 
 def send_query(query):
     try:
-        connect_db_server(query)
+        client_socket.send(query.encode())
     except:
         print("send_query() 오류")
-    finally:
         client_socket.close()
 
 def recv_data():
     try:
-        while True:
-            data = client_socket.recv(1024)
-            print("서버로부터 받은 데이터: ", data.decode())
+        data = client_socket.recv(1024)
+        print("서버로부터 받은 데이터: ", data.decode())
     except:
         print("recv_data() 오류")
-    finally:
         client_socket.close()
 
 def show_treeview(data):
@@ -135,33 +119,41 @@ win = tk.Tk()
 win.title("DB Gui")
 win.geometry("800x600")
 
-frame_input = tk.Frame(win)
-frame_input.pack(fill='x',side="top")
+frame_conn = tk.Frame(win)
+frame_conn.pack(fill='x', side="top")
 
-frame_output = tk.Frame(win)
+frame_input = tk.Frame(win, padx=10, pady=10)
+frame_input.pack(fill='x', pady=(50, 0), padx=(200, 0))
+
+frame_output = tk.Frame(win, padx=10, pady=10)
 frame_output.pack(fill='x',side="bottom")
 
+lb_conn_status = tk.Label(frame_conn, text="")
+lb_conn_status.pack()
+
 # DB, 테이블, 행 데이터 선택
-cb_data_type = ttk.Combobox(frame_input, state="readonly", values=list(DATA_TYPE_LIST.values()))
-cb_data_type.pack(side="left")
+cb_data_type = ttk.Combobox(frame_input, state="readonly", values=list(DATA_TYPE_LIST.values()), width=7)
+cb_data_type.pack(side="left", padx=(5,0))
 
 # 생성, 조회, 삭제 선택
-cb_action_type = ttk.Combobox(frame_input, state="readonly", values=list(ACTION_TYPE_LIST.values()))
-cb_action_type.pack(side="left")
+cb_action_type = ttk.Combobox(frame_input, state="readonly", values=list(ACTION_TYPE_LIST.values()), width=7)
+cb_action_type.pack(side="left", padx=(5,0))
 
 # 입력 프레임
-frame_detail_inputs = tk.Frame(frame_input, width=300)
-frame_detail_inputs.pack(side="left")
+frame_detail_inputs = tk.Frame(frame_input)
+frame_detail_inputs.pack(side="left", padx=(5,0))
 
-en_main = tk.Entry(frame_detail_inputs)
+en_main = tk.Entry(frame_detail_inputs, width=30)
 en_main.pack()
 
 # 확인 버튼
-btn_apply = tk.Button(frame_input, text="확인", command= lambda : on_click_btn_apply())
-btn_apply.pack(side="left")
+btn_apply = tk.Button(frame_input, text="확인", width=10, height=1, command=on_click_btn_apply)
+btn_apply.pack(side="left", padx=(5,0))
 
 # 출력 창
-tree = ttk.Treeview(frame_output)
+tree = ttk.Treeview(frame_output, height=20, padding=5)
 tree.pack(fill="both", expand=True)
 
 win.mainloop()
+
+connect_db_server("localhost", 8080)
