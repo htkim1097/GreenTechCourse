@@ -1,323 +1,793 @@
 <!doctype html>
 <html lang="ko">
+    <head>
+        <meta charset="UTF-8" />
+        <title>아디다스 듀라모 SL</title>
+        <style>
+            body {
+                margin: 0;
+                display: flex;
+                height: 100%;
+                flex-direction: column;
+                min-height: 100vh;
+            }
 
-<head>
-    <meta charset="UTF-8" />
-    <title>Adidas</title>
-    <style>
-        body {
-            margin: 0;
-            display: flex;
-            height: 100%;
-            flex-direction: column;
-            min-height: 100vh;
-        }
+            #header {
+                height: 120px;
+            }
 
-        #header {
-            height: 120px;
-            background-color: coral;
-        }
+            #header_black {
+                background-color: black;
+            }
 
-        #header_black {
-            background-color: black;
-        }
+            #header_small_bar {
+                font-size: 12px;
+                display: flex;
+                justify-content: end;
+                font-weight: 500;
+            }
 
-        #header_small_bar {
-            font-size: 12px;
-            display: flex;
-            justify-content: end;
-        }
+            .header_small_bar_item {
+                padding-right: 20px;
+                cursor: pointer;
+            }
 
-        .header_small_bar_item {
-            padding-right: 20px;
-        }
+            #header_main {
+                display: flex;
+            }
 
-        #header_main {
-            display: flex;
-        }
+            #header_main_menu {
+                flex: 1;
+            }
 
-        #header_main_menu {
-            flex: 1;
-        }
+            #header_main_menu_list {
+                list-style-type: none;
+                position: relative;
+                left: 0px;
+                top: 14px;
+                justify-self: center;
+                font-size: 13px;
+            }
 
-        #header_main_menu_list {
-            list-style-type: none;
-            position: relative;
-            left: 0px;
-            top: 14px;
-            justify-self: center;
-            font-size: 13px;
-        }
+            #header_main_menu_list > li {
+                display: inline-block;
+                margin-left: 20px;
+            }
 
-        #header_main_menu_list>li {
-            display: inline-block;
-            margin-left: 10px;
-        }
+            #header_buttons {
+                display: flex;
+                margin-right: 10px;
+                margin-top: 15px;
+                padding: 10px;
+                align-self: center;
+                width: 300px;
+            }
 
-        #header_buttons {
-            display: flex;
-            margin-right: 10px;
-            margin-top: 15px;
-            padding: 10px;
-            align-self: center;
-            width: 300px;
-        }
+            .header_buttons_icon {
+                margin-right: 17px;
+                cursor: pointer;
+            }
 
-        .header_buttons_icon {
-            margin-right: 17px;
-        }
+            #main {
+                flex: 1;
+                display: flex;
+            }
 
-        #main {
-            flex: 1;
-            background-color: gray;
-            display: flex;
-        }
+            #images {
+                display: inline-block;
+                flex: 1;
+            }
 
-        #images {
-            display: inline-block;
-            background-color: indianred;
-            flex: 1;
-        }
+            #side {
+                display: inline-block;
+                width: 280px;
+                margin: 10px;
+                padding: 20px;
+            }
 
-        #side {
-            display: inline-block;
-            background-color: dodgerblue;
-            width: 280px;
-            margin: 10px;
-            padding: 20px;
-        }
+            .side_info_item {
+                font-size: 15px;
+                margin-bottom: 8px;
+                display: flex;
+            }
 
-        .side_info_item {
-            font-size: 15px;
-            margin-bottom: 8px;
-            display: flex;
-        }
+            .side_info_item:hover {
+                background-color: black;
+                color: white;
+                cursor: pointer;
+            }
 
-        .side_info_item:hover {
-            background-color: black;
-            color: white;
-            cursor: pointer;
-        }
+            #side_info_another {
+                display: flex;
+                border: solid 1px black;
+                padding: 12px;
+                margin-bottom: 30px;
+                position: relative;
+                height: 26px;
+                transition: color 800ms;
+                font-weight: 500;
+                font-size: 15px;
+            }
 
-        #side_info_another {
-            display: flex;
-            border: solid 1px black;
-            padding: 12px;
-            margin-bottom: 30px;
-            position: relative;
-            height: 26px;
-            transition: color 800ms;
-            font-weight: 500;
-            font-size: 15px;
-        }
+            #side_info_another:hover {
+                color: #767677;
+                border: solid 1px black;
+                cursor: pointer;
+            }
 
-        #side_info_another:hover {
-            color: #767677;
-            border: solid 1px black;
-            cursor: pointer;
-        }
+            #side_whishlist {
+                position: absolute;
+                border: solid 1px black;
+                right: 36px;
+                top: 3px;
+                width: 48px;
+                height: 48px;
+                background-color: white;
+            }
 
-        #side_whishlist {
-            position: absolute;
-            border: solid 1px black;
-            right: 36px;
-            top: 3px;
-            width: 48px;
-            height: 48px;
-            background-color: white;
-        }
+            #side_whishlist:hover {
+                cursor: pointer;
+            }
 
-        #side_whishlist:hover {
-            cursor: pointer;
-        }
+            #side_addcart {
+                color: white;
+                transition: color 800ms;
+            }
 
-        #side_addcart{
-            color: white;
-            transition: color 800ms;
-        }
+            #side_addcart:hover {
+                cursor: pointer;
+                color: #767677;
+            }
 
-        #side_addcart:hover{
-            cursor: pointer;
-            color: #767677;
-        }
-    </style>
-</head>
+            #side_star_score {
+                cursor: pointer;
+                right: 10px;
+                position: relative;
+                right: -90px;
+                font-size: 13px;
+            }
+            #side_star_score:hover {
+                background-color: black;
+                color: white;
+            }
 
-<body>
-    <!--헤더-->
-    <div id="header">
-        <!--검은색 영역-->
-        <div id="header_black" style="width: 100%; height: 40px"></div>
+            #side_size_guide {
+                display: flex;
+                margin-left: 50px;
+                cursor: pointer;
+            }
+            #side_size_guide:hover {
+                filter: invert();
+                background-color: white;
+            }
 
-        <!--우측 도움말, 주문 및 반품 등-->
-        <div id="header_small_bar">
-            <!--도움말-->
-            <div class="header_small_bar_item">도움말</div>
-            <!--주문 및 반품-->
-            <div class="header_small_bar_item">주문 및 반품</div>
-            <!--아디클럽-->
-            <div class="header_small_bar_item">아디클럽 가입하기</div>
-        </div>
+            #side_shoes_sizes {
+                margin-left: -40px;
+            }
+            #side_shoes_sizes > li {
+                font-size: 13px;
+                text-align: center;
+                align-content: center;
+                list-style-type: none;
+                display: inline-block;
+                height: 40px;
+                width: 85px;
+                background-color: white;
+                margin-right: 5px;
+                margin-bottom: 5px;
+                cursor: pointer;
+            }
+            #side_shoes_sizes > li:hover {
+                filter: invert();
+            }
+            .main_images_nav {
+                margin-left: 5px;
+                margin-right: 5px;
+                cursor: pointer;
+                background-color: white;
+            }
+            .main_images_nav:hover {
+                filter: invert();
+            }
+            #main_images_nav_back {
+                display: flex;
+                align-items: center;
+                margin-right: 10px;
+                background-color: white;
+                cursor: pointer;
+                margin-left: 28px;
+            }
+            #main_images_nav_back:hover {
+                filter: invert();
+                background-color: white;
+            }
+            .shoes_img {
+                cursor:
+                    url(resource/zoom_cursor.png) 16 16,
+                    auto;
+                transition: transform 100ms;
+            }
+            .mySlides {
+                display: none;
+            }
 
-        <!--메뉴 부분-->
-        <div id="header_main">
-            <!--로고-->
-            <div><img src="resource/Logo.png" width="60" style="position: relative; left: 20px; top: -5px" /></div>
-            <!--상단 메뉴바-->
-            <div id="header_main_menu">
-                <ul id="header_main_menu_list">
-                    <!--shoes-->
-                    <li><b>SHOES</b></li>
-                    <!--men-->
-                    <li><b>MEN</b></li>
-                    <!--women-->
-                    <li><b>WOMEN</b></li>
-                    <!--kids-->
-                    <li><b>KIDS</b></li>
-                    <!--sports-->
-                    <li><b>SPORTS</b></li>
-                    <!--lifestyle-->
-                    <li>LIFESTYLE</li>
-                    <!--outlet-->
-                    <li>OUTLET</li>
-                </ul>
+            .slideshow-container {
+                max-width: 1000px;
+                position: relative;
+                margin: auto;
+            }
+
+            .img_change_btn {
+                cursor: pointer;
+                position: absolute;
+                top: 50%;
+                width: 50px;
+                height: 50px;
+                align-content: center;
+                text-align: center;
+                margin-top: -22px;
+                font-weight: bold;
+                font-size: 18px;
+                transition: 0.6s ease;
+                border: solid 1px black;
+            }
+
+            .img_change_btn:hover {
+                color: gray;
+            }
+
+            .preview {
+                cursor: pointer;
+                margin: 0 3px;
+                display: inline-block;
+                transition: background-color 0.6s ease;
+            }
+
+            .preview_underbar {
+                width: 60px;
+                height: 5px;
+                background-color: black;
+            }
+            #close {
+                margin: 10px;
+                width: 40px;
+                height: 40px;
+                border: solid 1px black;
+                text-align: center;
+                transition: color 300ms;
+                cursor: pointer;
+                font-size: 24px;
+            }
+            #close:hover {
+                color: gray;
+            }
+            #slideshow_cont {
+                display: none;
+            }
+            .mySlides {
+                width: 100%;
+                height: 70vh;
+                overflow: hidden;
+                align-content: center;
+                text-align: center;
+            }
+            .mySlides > img {
+                transition: transform 300ms ease;
+                width: 80%;
+            }
+            #dropdown_menu {
+                width: 100%;
+                position: absolute;
+                top: 148px;
+                display: none;
+                background-color: white;
+                z-index: 1;
+            }
+            .menu_item {
+                cursor: pointer;
+            }
+        </style>
+    </head>
+
+    <body>
+        <!--헤더-->
+        <div id="header">
+            <!--검은색 영역-->
+            <div id="header_black" style="width: 100%; height: 40px; margin-bottom: 5px"></div>
+
+            <!--우측 도움말, 주문 및 반품 등-->
+            <div id="header_small_bar">
+                <!--도움말-->
+                <div class="header_small_bar_item">도움말</div>
+                <!--주문 및 반품-->
+                <div class="header_small_bar_item">주문 및 반품</div>
+                <!--아디클럽-->
+                <div class="header_small_bar_item">아디클럽 가입하기</div>
             </div>
-            <!--로그인, 검색 등-->
-            <div id="header_buttons">
-                <!--검색창-->
+
+            <!--메뉴 부분-->
+            <div id="header_main">
+                <!--로고-->
                 <div>
-                    <input type="text" style="width: 82%; height: 25px; border: none; border-radius: 4px" />
-                    <a><img src="resource/search.png" width="24"
-                            style="position: relative; left: 113px; top: -24px" /></a>
+                    <img
+                        src="resource/Logo.png"
+                        width="60"
+                        style="position: relative; left: 20px; top: -5px; cursor: pointer" />
                 </div>
-                <!--로그인-->
-                <div class="header_buttons_icon"><img src="resource/user.png" width="28" /></div>
-                <!--위시리스트-->
-                <div class="header_buttons_icon"><img src="resource/like.png" width="28" /></div>
-                <!--장바구니-->
-                <div class="header_buttons_icon"><img src="resource/cart.png" width="26" /></div>
+                <!--상단 메뉴바-->
+                <div id="header_main_menu">
+                    <ul id="header_main_menu_list">
+                        <!--shoes-->
+                        <li id="menu_item1" class="menu_item"><b>SHOES</b></li>
+                        <!--men-->
+                        <li id="menu_item2" class="menu_item"><b>MEN</b></li>
+                        <!--women-->
+                        <li id="menu_item3" class="menu_item"><b>WOMEN</b></li>
+                        <!--kids-->
+                        <li id="menu_item4" class="menu_item"><b>KIDS</b></li>
+                        <!--sports-->
+                        <li id="menu_item5" class="menu_item">SPORTS</li>
+                        <!--lifestyle-->
+                        <li id="menu_item6" class="menu_item">LIFESTYLE</li>
+                        <!--outlet-->
+                        <li id="menu_item7" class="menu_item"><b>OUTLET</b></li>
+                    </ul>
+                </div>
+                <!--로그인, 검색 등-->
+                <div id="header_buttons">
+                    <!--검색창-->
+                    <div>
+                        <input
+                            type="text"
+                            style="width: 82%; height: 25px; border: none; border-radius: 4px"
+                            placeholder="Search" />
+                        <a
+                            ><img
+                                src="resource/search.png"
+                                width="24"
+                                style="position: relative; left: 113px; top: -24px; cursor: pointer"
+                        /></a>
+                    </div>
+                    <!--로그인-->
+                    <div class="header_buttons_icon"><img src="resource/user.png" width="28" /></div>
+                    <!--위시리스트-->
+                    <div class="header_buttons_icon"><img src="resource/like.png" width="28" /></div>
+                    <!--장바구니-->
+                    <div class="header_buttons_icon"><img src="resource/cart.png" width="26" /></div>
+                </div>
+
+                <!--드롭다운 메뉴-->
+                <div id="dropdown_menu">
+                    <div id="item1">
+                        <div style="display: flex; justify-content: center;">
+                            <!--신발 전체보기-->
+                            <div class="mid_cont" style="margin-right: 50px">
+                                <div class="dummy_click">신발 전체보기</div>
+                                <div class="dummy_click">스포츠</div>
+                                <div class="dummy_click">러닝</div>
+                                <div class="dummy_click">축구</div>
+                                <div class="dummy_click">하이킹 & 아웃도어</div>
+                                <div class="dummy_click">트레이닝</div>
+                                <div class="dummy_click">위킹</div>
+                                <div class="dummy_click">골프</div>
+                            </div>
+
+                            <!--삼바-->
+                            <div style="display: flex; margin-right: 50px">
+                                <div class="dummy_click" style="position: relative">
+                                    <div><b>삼바</b></div>
+                                    <img src="resource/shoes_1.png" width="200px" />
+                                    <div class="dummy_click">전체보기</div>
+                                </div>
+                                <div class="dummy_click" style="position: relative">
+                                    <div><b>도쿄</b></div>
+                                    <img src="resource/shoes_2.png" width="200px" />
+                                    <div class="dummy_click">전체보기</div>
+                                </div>
+                                <div class="dummy_click" style="position: relative">
+                                    <div><b>슈퍼스타</b></div>
+                                    <img src="resource/shoes_3.png" width="200px" />
+                                    <div class="dummy_click">전체보기</div>
+                                </div>
+                                <div class="dummy_click" style="position: relative">
+                                    <div><b>스페지알</b></div>
+                                    <img src="resource/shoes_4.png" width="200px" />
+                                    <div class="dummy_click">전체보기</div>
+                                </div>
+                            </div>
+
+                            <!--10만원 이하 신발-->
+                            <div class="mid_cont">
+                                <div class="dummy_click">10만원 이하 신발</div>
+
+                                <div>
+                                    <div>아울렛</div>
+                                    <div class="dummy_click">최대 30%</div>
+                                    <div class="dummy_click">최대 40%</div>
+                                    <div class="dummy_click">최대 50%</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="item2">2</div>
+                    <div id="item3">3</div>
+                    <div id="item4">4</div>
+                    <div id="item5">5</div>
+                    <div id="item6">5</div>
+                    <div id="item7">5</div>
+                </div>
             </div>
         </div>
-    </div>
 
-    <!--메인 컨텐츠-->
-    <main id="main">
-        <!--상품 이미지-->
-        <div id="images">
-            <!--뒤로가기 네비게이션-->
-            <div></div>
-            <!--신발 이미지들-->
-            <div>
-                <!--확대 이미지-->
-                <div></div>
-                <!--동영상-->
-                <div></div>
-            </div>
-        </div>
-
-        <!--상품 정보-->
-        <div id="side">
-            <!--남성 running-->
-            <div style="display: flex">
-                <div>남성 • Running</div>
-                <div style="right: 10px; position: relative; right: -90px; font-size: 13px">★★★★★ <u>86</u></div>
-            </div>
-            <!--듀라모-->
-            <div style="font-size: 28px; font-weight: 600;">듀라모 SL</div>
-            <!--가격-->
-            <div style="color: #E72B2B;"><b>59,000 원</b></div>
-            <!--원가-->
-
-            <div style="display: flex; font-size: 12px; margin-bottom: 12px;">
-                <div style="color: #7A7D8D;  ">79,000 원 정상가</div>
-                <div style="margin-left: 5px; color: #E7539F">
-                    -25%
+        <!--메인 컨텐츠-->
+        <main id="main">
+            <!--상품 이미지-->
+            <div id="images">
+                <!--뒤로가기 네비게이션-->
+                <div style="display: flex; margin-top: 25px; font-size: 15px">
+                    <div id="main_images_nav_back">
+                        <img src="resource/back.png" width="16px" height="13px" />
+                        <div style="margin-left: 7px"><u>뒤로 가기</u></div>
+                    </div>
+                    <div class="main_images_nav">
+                        <u>Home</u>
+                    </div>
+                    /
+                    <div class="main_images_nav"><u>Men</u></div>
+                    /
+                    <div class="main_images_nav"><u>Shoes</u></div>
+                </div>
+                <!--신발 이미지들-->
+                <div>
+                    <!--확대 이미지-->
+                    <div style="width: 49%; display: inline-block; transition: transform 300ms ease; overflow: hidden">
+                        <img id="shoes_img_1" class="shoes_img" src="resource/SL_Black.png" width="100%" />
+                    </div>
+                    <!--동영상-->
+                    <div style="width: 49%; display: inline-block">
+                        <video src="resource/SL_Black_video.webm" autoplay muted loop width="100%"></video>
+                    </div>
+                    <div style="width: 49%; display: inline-block; transition: transform 300ms ease; overflow: hidden">
+                        <img id="shoes_img_2" class="shoes_img" src="resource/SL_Black_2.png" width="100%" />
+                    </div>
+                    <div style="width: 49%; display: inline-block; transition: transform 300ms ease; overflow: hidden">
+                        <img id="shoes_img_3" class="shoes_img" src="resource/SL_Black_3.png" width="100%" />
+                    </div>
                 </div>
             </div>
-            <!--지금 주목받는 제품-->
-            <div style="font-size: 14px; padding: 7px; display: flex; background-color: #ECEFF1; margin:3px;">
-                <img src="resource/star.png" width="19" height="19" />
-                <div style="margin-left: 2px;">지금 주목받는 제품! 실시간 인기 제품을 놓치지 마세요.</div>
-            </div>
-            <!--색상-->
-            <div style="font-size: 14px; margin-top: 40px; margin-bottom: 40px">
-                Core Black / Cloud White / Carbon
-            </div>
-            <!--구입 가능한 사이즈-->
-            <div style="display: flex">
+
+            <!--상품 정보-->
+            <div id="side">
+                <!--남성 running-->
+                <div style="display: flex">
+                    <div>남성 • Running</div>
+                    <div id="side_star_score">★★★★★ <u>86</u></div>
+                </div>
+                <!--듀라모-->
+                <div style="font-size: 28px; font-weight: 600">듀라모 SL</div>
+                <!--가격-->
+                <div style="color: #e72b2b"><b>59,000 원</b></div>
+                <!--원가-->
+
+                <div style="display: flex; font-size: 12px; margin-bottom: 12px">
+                    <div style="color: #7a7d8d">79,000 원 정상가</div>
+                    <div style="margin-left: 5px; color: #e7539f">-25%</div>
+                </div>
+                <!--지금 주목받는 제품-->
+                <div style="font-size: 14px; padding: 7px; display: flex; background-color: #eceff1; margin: 3px">
+                    <img src="resource/star.png" width="19" height="19" />
+                    <div style="margin-left: 2px">지금 주목받는 제품! 실시간 인기 제품을 놓치지 마세요.</div>
+                </div>
+                <!--색상-->
+                <div style="font-size: 14px; margin-top: 40px; margin-bottom: 40px">
+                    Core Black / Cloud White / Carbon
+                </div>
                 <!--구입 가능한 사이즈-->
-                <div>구입 가능한 사이즈</div>
-                <!--사이즈 가이드-->
-                <div style="display: flex; margin-left: 30px">
-                    <img src="resource/ruler.png" width="30" />
-                    <div>사이즈 가이드</div>
-                </div>
-            </div>
-            <!--사이즈-->
-            <div>
-                <ul>
-                    <li>240</li>
-                    <li>270</li>
-                </ul>
-            </div>
-            <!--정사이즈입니다.-->
-            <div
-                style="font-size: 14px; padding: 15px; display: flex; background-color: white; border: solid 1px; margin-bottom: 40px;">
-                <img src="resource/info.png" width="19" height="19" />
-                <div style="margin-left: 2px"><b>정사이즈입니다.</b> 평소에 구매하는 사이즈와 동일하게 선택하시는 것을 추천해 드립니다.</div>
-            </div>
-
-            
-            <!--장바구니 담기 버튼-->
-            <div style="position: relative; height: 50px; margin-bottom: 20px;">
-                <div id="side_addcart">
-                    <div style="position: absolute; width: 180px; height: 50px; background-color: black;">
-                        <div style="position: absolute; top: 12px; left: 15px; font-size: 14px; font-weight: 600;">
-                            장바구니 담기</div>
-                        <img src="resource/arrow.png" width="30px"
-                            style="filter:invert(); position: absolute; right: 12px; top: 15px">
-                    </div>
-                    <div
-                        style="position: absolute; width: 178px; height: 48px; border: solid 1px black; left: 3px; top: 3px;">
-
+                <div style="display: flex; font-size: 14px">
+                    <!--구입 가능한 사이즈-->
+                    <div><b>구입 가능한 사이즈</b></div>
+                    <!--사이즈 가이드-->
+                    <div id="side_size_guide">
+                        <img src="resource/ruler.png" width="30" />
+                        <div><u>사이즈 가이드</u></div>
                     </div>
                 </div>
+                <!--사이즈-->
+                <div>
+                    <ul id="side_shoes_sizes">
+                        <li>235</li>
+                        <li>240</li>
+                        <li>260</li>
+                        <li>265</li>
+                        <li>270</li>
+                        <li>275</li>
+                        <li>280</li>
+                    </ul>
+                </div>
+                <!--정사이즈입니다.-->
+                <div
+                    style="
+                        font-size: 14px;
+                        padding: 15px;
+                        display: flex;
+                        background-color: white;
+                        border: solid 1px;
+                        margin-bottom: 40px;
+                    ">
+                    <img src="resource/info.png" width="19" height="19" />
+                    <div style="margin-left: 2px">
+                        <b>정사이즈입니다.</b> 평소에 구매하는 사이즈와 동일하게 선택하시는 것을 추천해 드립니다.
+                    </div>
+                </div>
 
-                <!--wishlist-->
-                <div id="side_whishlist">
-                    <img src="resource/like.png" width="24" style="position: absolute; left: 12px; top: 12px;">
+                <!--장바구니 담기 버튼-->
+                <div style="position: relative; height: 50px; margin-bottom: 20px">
+                    <div id="side_addcart">
+                        <div style="position: absolute; width: 180px; height: 50px; background-color: black">
+                            <div style="position: absolute; top: 12px; left: 15px; font-size: 14px; font-weight: 600">
+                                장바구니 담기
+                            </div>
+                            <img
+                                src="resource/arrow.png"
+                                width="30px"
+                                style="filter: invert(); position: absolute; right: 12px; top: 15px" />
+                        </div>
+                        <div
+                            style="
+                                position: absolute;
+                                width: 178px;
+                                height: 48px;
+                                border: solid 1px black;
+                                left: 3px;
+                                top: 3px;
+                            "></div>
+                    </div>
+
+                    <!--wishlist-->
+                    <div id="side_whishlist">
+                        <img src="resource/like.png" width="24" style="position: absolute; left: 12px; top: 12px" />
+                    </div>
+                </div>
+
+                <!--다른 추천 제품 보기-->
+                <div id="side_info_another">
+                    다른 추천 제품 보기
+                    <img style="position: absolute; right: 15px; bottom: 15px" src="resource/arrow.png" width="28" />
+                </div>
+                <!--배송/반품/교환-->
+                <div class="side_info_item">
+                    <img src="resource/truck.png" width="18" />
+                    <div style="margin-left: 8px"><u>배송/반품/교환</u></div>
+                </div>
+                <!--세탁 및 취급 시-->
+                <div class="side_info_item">
+                    <img src="resource/info.png" width="18" height="18" />
+                    <div style="margin-left: 8px"><u>세탁 및 취급 시 주의사항</u></div>
+                </div>
+                <!--품질보증-->
+                <div class="side_info_item">
+                    <img src="resource/check.png" width="18" />
+                    <div style="margin-left: 8px"><u>품질 보증 및 AS 정보</u></div>
+                </div>
+                <!--상품 제조연월-->
+                <div class="side_info_item">
+                    <img src="resource/check.png" width="18" />
+                    <div style="margin-left: 8px"><u>상품 제조연월 정보</u></div>
                 </div>
             </div>
+        </main>
 
-            <!--다른 추천 제품 보기-->
-            <div id="side_info_another">
-                다른 추천 제품 보기
-                <img style="position: absolute; right: 15px; bottom: 15px;" src="resource/arrow.png" width="28">
+        <!--슬라이드 쇼-->
+        <div id="slideshow_cont">
+            <div id="close">x</div>
+
+            <div class="slideshow-container">
+                <div class="mySlides">
+                    <img id="slide_img_1" src="resource/SL_Black.png" />
+                </div>
+
+                <div class="mySlides">
+                    <img id="slide_img_2" src="resource/SL_Black_2.png" />
+                </div>
+
+                <div class="mySlides">
+                    <img id="slide_img_3" src="resource/SL_Black_3.png" />
+                </div>
+
+                <a class="img_change_btn" onclick="plusSlides(-1)">←</a>
+                <a class="img_change_btn" style="right: 0" onclick="plusSlides(1)">→</a>
             </div>
-            <!--배송/반품/교환-->
-            <div class="side_info_item">
-                <img src="resource/truck.png" width="18">
-                <div style="margin-left: 8px;"><u>배송/반품/교환</u></div>
-            </div>
-            <!--세탁 및 취급 시-->
-            <div class="side_info_item">
-                <img src="resource/info.png" width="18" height="18">
-                <div style="margin-left: 8px;"><u>세탁 및 취급 시 주의사항</u></div>
-            </div>
-            <!--품질보증-->
-            <div class="side_info_item">
-                <img src="resource/check.png" width="18">
-                <div style="margin-left: 8px;"><u>품질 보증 및 AS 정보</u></div>
-            </div>
-            <!--상품 제조연월-->
-            <div class="side_info_item">
-                <img src="resource/check.png" width="18">
-                <div style="margin-left: 8px;"><u>상품 제조연월 정보</u></div>
+
+            <div style="text-align: center">
+                <div class="preview" onclick="currentSlide(1)">
+                    <img src="resource/SL_Black.png" width="60px" />
+                </div>
+                <div class="preview" onclick="currentSlide(2)">
+                    <img src="resource/SL_Black_2.png" width="60px" />
+                </div>
+                <div class="preview" onclick="currentSlide(3)">
+                    <img src="resource/SL_Black_3.png" width="60px" />
+                </div>
             </div>
         </div>
-    </main>
 
-    <script></script>
-</body>
+        <!--드롭다운 메뉴-->
+        <script>
+            const menuItems = document.getElementsByClassName("menu_item");
 
+            for (let i = 0; i < menuItems.length; i++) {
+                menuItems[i].addEventListener("mouseover", () => {
+                    showDD(menuItems[i]);
+                });
+
+                menuItems[i].addEventListener("mouseout", () => {
+                    hideDD(menuItems[i]);
+                });
+            }
+
+            function showDD(obj) {
+                let t = document.getElementById("dropdown_menu");
+                t.style.display = "block";
+
+                const items = t.children;
+
+                for (let i = 0; i < items.length; i++) {
+                    items[i].style.display = "none";
+                }
+
+                switch (obj.id) {
+                    case "menu_item1":
+                        document.getElementById("item1").style.display = "block";
+                        break;
+                    case "menu_item2":
+                        document.getElementById("item2").style.display = "block";
+                        break;
+                    case "menu_item3":
+                        document.getElementById("item3").style.display = "block";
+                        break;
+                    case "menu_item4":
+                        document.getElementById("item4").style.display = "block";
+                        break;
+                    case "menu_item5":
+                        document.getElementById("item5").style.display = "block";
+                        break;
+                    case "menu_item6":
+                        document.getElementById("item6").style.display = "block";
+                        break;
+                    case "menu_item7":
+                        document.getElementById("item7").style.display = "block";
+                        break;
+                }
+            }
+
+            function hideDD(obj) {
+                let t = document.getElementById("dropdown_menu");
+                t.style.display = "none";
+            }
+        </script>
+
+        <!--상품 소개 이미지 확대-->
+        <script>
+            const shoes_imgs = document.getElementsByClassName("shoes_img");
+
+            for (let i = 0; i < shoes_imgs.length; i++) {
+                shoes_imgs[i].addEventListener("click", (e) => {
+                    popupSlideShow(i);
+                });
+            }
+
+            const slideshowCloseBtn = document.getElementById("close");
+            slideshowCloseBtn.addEventListener("click", (e) => {
+                closeSlideShow();
+            });
+
+            setImageAction("shoes_img_1");
+            setImageAction("shoes_img_2");
+            setImageAction("shoes_img_3");
+            setImageAction("slide_img_1");
+            setImageAction("slide_img_2");
+            setImageAction("slide_img_3");
+
+            function setImageAction(imgID) {
+                let img = document.getElementById(imgID);
+                let imgSrc = new String(img.src);
+
+                img.addEventListener("mousemove", zoomin);
+                img.addEventListener("mouseout", resetImg);
+
+                function zoomin(e) {
+                    e.preventDefault();
+
+                    let imgRect = img.getBoundingClientRect();
+                    let imgWidth = imgRect.width;
+                    let imgHeight = imgRect.height;
+
+                    let mouseX = e.clientX - imgRect.left;
+                    let mouseY = e.clientY - imgRect.top;
+
+                    let translateX = (1 - mouseX / imgWidth - 0.5) * 50;
+                    let translateY = (1 - mouseY / imgHeight - 0.5) * 50;
+
+                    img.style.transform = `scale(2) translate(${translateX}%, ${translateY}%)`;
+                }
+
+                function resetImg(e) {
+                    img.style.transform = `translate(0, 0)`;
+                }
+            }
+
+            function popupSlideShow(n) {
+                document.getElementById("header").style.display = "none";
+                document.getElementById("main").style.display = "none";
+                document.getElementById("slideshow_cont").style.display = "block";
+            }
+
+            function closeSlideShow() {
+                document.getElementById("header").style.display = "block";
+                document.getElementById("main").style.display = "flex";
+                document.getElementById("slideshow_cont").style.display = "none";
+            }
+        </script>
+
+        <!--상품 이미지 슬라이드 쇼-->
+        <script>
+            let previews = document.getElementsByClassName("preview");
+            let slides = document.getElementsByClassName("mySlides");
+            let slideIndex = 1;
+
+            for (let i = 0; i < previews.length; i++) {
+                const underbar = document.createElement("div");
+                underbar.setAttribute("class", "preview_underbar");
+                underbar.style.display = "none";
+
+                previews[i].appendChild(underbar);
+
+                previews[i].addEventListener("mouseover", (e) => {
+                    previews[i].getElementsByClassName("preview_underbar")[0].style.display = "block";
+                });
+
+                previews[i].addEventListener("mouseout", (e) => {
+                    if (slideIndex - 1 != i) {
+                        previews[i].getElementsByClassName("preview_underbar")[0].style.display = "none";
+                    }
+                });
+            }
+
+            showSlides(slideIndex);
+
+            function plusSlides(n) {
+                slideIndex += n;
+                showSlides(slideIndex);
+            }
+
+            function currentSlide(n) {
+                slideIndex = n;
+                showSlides(slideIndex);
+            }
+
+            function showSlides(n) {
+                // 슬라이드 번호 바운더리 조절
+                if (n > slides.length) {
+                    slideIndex = 1;
+                }
+                if (n < 1) {
+                    slideIndex = slides.length;
+                }
+
+                // 모든 사진 안보이게
+                for (let i = 0; i < slides.length; i++) {
+                    slides[i].style.display = "none";
+                }
+
+                let bars = document.getElementsByClassName("preview_underbar");
+                for (let i = 0; i < bars.length; i++) {
+                    bars[i].style.display = "none";
+                }
+
+                // 현재 인덱스의 사진과 프리뷰만 활성화
+                slides[slideIndex - 1].style.display = "block";
+                document.getElementsByClassName("preview_underbar")[slideIndex - 1].style.display = "block";
+            }
+        </script>
+    </body>
 </html>

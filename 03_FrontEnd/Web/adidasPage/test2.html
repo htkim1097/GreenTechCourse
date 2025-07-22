@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="ko">
+    <head>
+        <title></title>
+        <meta />
+        <style>
+            .mySlides {
+                display: none;
+            }
+
+            .slideshow-container {
+                max-width: 1000px;
+                position: relative;
+                margin: auto;
+            }
+
+            .img_change_btn {
+                cursor: pointer;
+                position: absolute;
+                top: 50%;
+                width: 50px;
+                height: 50px;
+                align-content: center;
+                text-align: center;
+                margin-top: -22px;
+                font-weight: bold;
+                font-size: 18px;
+                transition: 0.6s ease;
+                border: solid 1px black;
+            }
+
+            .img_change_btn:hover {
+                color: gray;
+            }
+
+            .preview {
+                cursor: pointer;
+                margin: 0 3px;
+                display: inline-block;
+                transition: background-color 0.6s ease;
+            }
+
+            .preview_underbar {
+                width: 60px;
+                height: 5px;
+                background-color: black;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="slideshow_cont">
+            <div id="close">X</div>
+
+            <div class="slideshow-container">
+                <div class="mySlides fade">
+                    <img src="resource/SL_Black.png" style="width: 100%" />
+                </div>
+
+                <div class="mySlides fade">
+                    <img src="resource/SL_Black_2.png" style="width: 100%" />
+                </div>
+
+                <div class="mySlides fade">
+                    <img src="resource/SL_Black_3.png" style="width: 100%" />
+                </div>
+
+                <a class="img_change_btn" onclick="plusSlides(-1)">←</a>
+                <a class="img_change_btn" style="right: 0" onclick="plusSlides(1)">→</a>
+            </div>
+
+            <div style="text-align: center">
+                <div class="preview" onclick="currentSlide(1)">
+                    <img src="resource/SL_Black.png" width="60px" />
+                </div>
+                <div class="preview" onclick="currentSlide(2)">
+                    <img src="resource/SL_Black_2.png" width="60px" />
+                </div>
+                <div class="preview" onclick="currentSlide(3)">
+                    <img src="resource/SL_Black_3.png" width="60px" />
+                </div>
+            </div>
+        </div>
+
+        <script>
+            let previews = document.getElementsByClassName("preview");
+            let slides = document.getElementsByClassName("mySlides");
+            let slideIndex = 1;
+
+            for (let i = 0; i < previews.length; i++) {
+                const underbar = document.createElement("div");
+                underbar.setAttribute("class", "preview_underbar");
+                underbar.style.display = "none";
+
+                previews[i].appendChild(underbar);
+
+                previews[i].addEventListener("mouseover", (e) => {
+                    previews[i].getElementsByClassName("preview_underbar")[0].style.display = "block";
+                });
+
+                previews[i].addEventListener("mouseout", (e) => {
+                    if (slideIndex - 1 != i) {
+                        previews[i].getElementsByClassName("preview_underbar")[0].style.display = "none";
+                    }
+                });
+            }
+
+            showSlides(slideIndex);
+
+            function plusSlides(n) {
+                slideIndex += n;
+                showSlides(slideIndex);
+            }
+
+            function currentSlide(n) {
+                slideIndex = n;
+                showSlides(slideIndex);
+            }
+
+            function showSlides(n) {
+                // 슬라이드 번호 바운더리 조절
+                if (n > slides.length) {
+                    slideIndex = 1;
+                }
+                if (n < 1) {
+                    slideIndex = slides.length;
+                }
+
+                // 모든 사진 안보이게
+                for (let i = 0; i < slides.length; i++) {
+                    slides[i].style.display = "none";
+                }
+
+                let bars = document.getElementsByClassName("preview_underbar");
+                for (let i = 0; i < bars.length; i++) {
+                    bars[i].style.display = "none";
+                }
+
+                // 현재 인덱스의 사진과 프리뷰만 활성화
+                slides[slideIndex - 1].style.display = "block";
+                document.getElementsByClassName("preview_underbar")[slideIndex - 1].style.display = "block";
+            }
+        </script>
+    </body>
+</html>

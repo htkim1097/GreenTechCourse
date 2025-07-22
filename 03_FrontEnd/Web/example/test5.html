@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="ko">
+    <head>
+        <meta charset="UTF-8" />
+        <title>Title</title>
+        <style>
+            * {
+                margin: 0;
+                padding: 0;
+                background-color: brown;
+            }
+
+            #cont {
+                position: relative;
+                height: 50px;
+                text-align: center;
+                background-color: blueviolet;
+                align-content: center;
+            }
+
+            #dd {
+                width: 100%;
+                position: absolute;
+                top: 50px;
+                display: none;
+            }
+            #dd > div {
+                background-color: aqua;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="cont">
+            <div id="dd">
+                <div id="in1">
+                    1
+                    <hr />
+                </div>
+                <div id="in2">
+                    2
+                    <hr />
+                </div>
+                <div id="in3">
+                    3
+                    <hr />
+                </div>
+                <div id="in4">
+                    4
+                    <hr />
+                </div>
+                <div id="in5">
+                    5
+                    <hr />
+                </div>
+            </div>
+
+            <a id="men" class="panel" onmouseover="showDD(this)" onmouseout="hideDD(this)">men</a>
+            <a id="women" class="panel" onmouseover="showDD(this)" onmouseout="hideDD(this)">women</a>
+            <a class="panel" onmouseover="showDD(this)" onmouseout="hideDD(this)">kids</a>
+            <a class="panel" onmouseover="showDD(this)" onmouseout="hideDD(this)">sports</a>
+            <a class="panel" onmouseover="showDD(this)" onmouseout="hideDD(this)">outlet</a>
+        </div>
+
+        <div id="main_div" style="background-color: beige">main 영역</div>
+
+        <script>
+            // Dom.style.~~ 이 방식은 인라인 스타일만 가져온다. (태그에 직접 주어진 스타일)
+            // getComputedStyle(dom).height 이 방식은 최종 결과에 보여지는 스타일 값을 가져온다.
+
+            function showDD(obj) {
+                let t = document.getElementById("dd");
+                t.style.display = "block";
+
+                document.getElementById("in1").style.display = "none";
+                document.getElementById("in2").style.display = "none";
+                document.getElementById("in3").style.display = "none";
+                document.getElementById("in4").style.display = "none";
+                document.getElementById("in5").style.display = "none";
+
+                if (obj.id == "men") {
+                    document.getElementById("in1").style.display = "block";
+                } else if (obj.id == "women") {
+                    document.getElementById("in2").style.display = "block";
+                }
+            }
+
+            function hideDD(obj) {
+                let t = document.getElementById("dd");
+                t.style.display = "none";
+            }
+        </script>
+    </body>
+</html>

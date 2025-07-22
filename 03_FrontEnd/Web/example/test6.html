@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="ko">
+    <head>
+        <meta charset="UTF-8" />
+        <title>Title</title>
+    </head>
+    <body>
+        <canvas id="myCanvas" width="400" height="300"></canvas>
+
+        <script>
+            // 캔버스 객체를 만든다
+            let canvas = document.getElementById("myCanvas");
+            // 그리기도구를 불러온다
+            let ctx = canvas.getContext("2d");
+            //
+            //            // 색상을 칠하거나 테두리만 그리는 두 방식이 있다
+            //            ctx.fillStyle = "blue";
+            //            // x, y, w, h
+            //            ctx.fillRect(50, 50, 100, 50);
+            //
+            //            // path 방식의 그리기
+            //            ctx.beginPath();
+            //            // x, y, r, start앵글, end앵글
+            //            ctx.arc(150, 100, 40, 0, Math.PI * 2);
+            //            ctx.fillStyle = "red";
+            //            ctx.fill();
+            //
+            //            // 선 그리기
+            //            ctx.beginPath();
+            //            ctx.moveTo(20, 20); // 시작점
+            //            ctx.lineTo(200, 100);
+            //            ctx.lineTo(300, 200);
+            //            ctx.strokeStyle = "green";
+            //            ctx.lineWidth = 4;
+            //            ctx.stroke();
+            //
+            //            // 텍스트 출력
+            //            ctx.fillStyle = "red";
+            //            ctx.fillText("abcde", 250, 100);
+            //
+            //            // 이미지 불러오기
+            //            let img = new Image();
+            //            img.src = "resource/cat2.jpg";
+            //            img.onload = (e) => {
+            //                ctx.drawImage(img, 0, 150);
+            //            };
+            //
+            //            let x = 0;
+            //            function draw(){
+            //                ctx.clearRect(0, 100, x, 50);
+            //                ctx.fillStyle = "black";
+            //                ctx.fillRect(x, 100, 50, 50);
+            //                x += 2;
+            //                requestAnimationFrame(draw);
+            //            }
+            //            draw();
+            //
+            //            let x = 150;
+            //            let y = 100;
+            //
+            //            document.addEventListener("keydown", e => {
+            //                if (e.key === "ArrowRight") x += 10;
+            //                if (e.key === "ArrowLeft") x -= 10;
+            //                if (e.key === "ArrowUp") y -= 10;
+            //                if (e.key === "ArrowDown") y += 10;
+            //                draw();
+            //            });
+            //
+            //            function draw(){
+            //                ctx.clearRect(0, 0, 400, 300);
+            //                ctx.fillStyle = "black";
+            //                ctx.fillRect(x, y, 30, 30);
+            //            }
+            //
+            //            draw();
+
+            const gravity = 0.5;
+            const jumpPower = -10;
+            const groundY = canvas.height - 50;
+
+            let player = {
+                x: 100,
+                y: groundY,
+                width: 30,
+                height: 30,
+                velocityY: 0,
+                isJumping: false
+            };
+
+            var keys = [];
+            
+            document.addEventListener("keydown", (e) => {
+                keys[e.keyCode] = true;
+
+                console.log(e.keyCode);
+
+                // Ctrl + Space
+                if (keys[17] && keys[32]) {
+                    console.log("Ctrl + Space");
+                    e.preventDefault(); // prevent default browser behavior
+                }
+            });
+            
+            document.addEventListener("keyup", (e) => {
+                keys[e.keyCode] = false;
+            });
+
+            function update() {
+                if (keys[32] && !player.isJumping) {
+                    player.velocityY = jumpPower;
+                    player.isJumping = true;
+                }
+                if (keys[39]) {
+                    player.x += 10;
+                }
+                if (keys[37]) {
+                    player.x -= 10;
+                }
+
+                player.velocityY += gravity;
+                player.y += player.velocityY;
+
+                if (player.y >= groundY) {
+                    player.y = groundY;
+                    player.velocityY = 0;
+                    player.isJumping = false;
+                }
+            }
+
+            function draw() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                ctx.fillStyle = "black";
+                ctx.fillRect(0, groundY + player.height, canvas.width, 10);
+                ctx.fillStyle = "blue";
+                ctx.fillRect(player.x, player.y, player.width, player.height);
+            }
+
+            function gameloop() {
+                update();
+                draw();
+                requestAnimationFrame(gameloop);
+            }
+            gameloop();
+        </script>
+    </body>
+</html>

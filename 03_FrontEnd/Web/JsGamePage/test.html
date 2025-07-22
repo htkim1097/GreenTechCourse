@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="ko">
+    <head>
+        <meta charset="UTF-8" />
+        <title>Title</title>
+    </head>
+    <body>
+        <canvas id="myCanvas" width="400" height="300"></canvas>
+
+        <script>
+            // 캔버스 객체를 만든다
+            let canvas = document.getElementById("myCanvas");
+            // 그리기도구를 불러온다
+            let ctx = canvas.getContext("2d");
+
+            const gravity = 0.5;
+            const jumpPower = -10;
+            const groundY = canvas.height - 50;
+
+            let player = {
+                x: 100,
+                y: groundY,
+                width: 30,
+                height: 30,
+                velocityY: 0,
+                isJumping: false
+            };
+
+            var keys = [];
+            
+            document.addEventListener("keydown", (e) => {
+                keys[e.keyCode] = true;
+                //console.log(e.keyCode);
+            });
+            
+            document.addEventListener("keyup", (e) => {
+                keys[e.keyCode] = false;
+            });
+            
+            function 
+
+            function update() {
+                // Space
+                if (keys[32] && !player.isJumping) {
+                    player.velocityY = jumpPower;
+                    player.isJumping = true;
+                }
+                // 오른쪽
+                if (keys[39]) {
+                    player.x += 10;
+                }
+                // 왼쪽
+                if (keys[37]) {
+                    player.x -= 10;
+                }
+
+                player.velocityY += gravity;
+                player.y += player.velocityY;
+
+                if (player.y >= groundY) {
+                    player.y = groundY;
+                    player.velocityY = 0;
+                    player.isJumping = false;
+                }
+            }
+
+            function draw() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                ctx.fillStyle = "black";
+                ctx.fillRect(0, groundY + player.height, canvas.width, 10);
+                ctx.fillStyle = "blue";
+                ctx.fillRect(player.x, player.y, player.width, player.height);
+            }
+
+            function gameloop() {
+                update();
+                draw();
+                requestAnimationFrame(gameloop);
+            }
+            gameloop();
+        </script>
+    </body>
+</html>
