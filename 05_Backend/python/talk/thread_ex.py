@@ -19,7 +19,6 @@
 # import threading
 # import time
 #
-#
 # def task(name, delay):
 #     print(f"{name} 시작")
 #     time.sleep(delay)
@@ -31,6 +30,3 @@
 # t1.start()
 # t2.start()
 # t3.start()
-
-
-

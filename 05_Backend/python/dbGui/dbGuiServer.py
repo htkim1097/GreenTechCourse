@@ -18,6 +18,17 @@ def send_query(query):
         # 테이블 데이터 조회
         cur.execute(query)
         db_data = cur.fetchall()
+        descs = cur.description()
+
+        cols = []
+        for d in descs:
+            cols.append(d[0])
+
+        res = {
+            "col" : cols,
+            "data" : db_data
+        }
+
         conn.commit()
         conn.close()
 
@@ -25,7 +36,7 @@ def send_query(query):
         for d in db_data:
             data += f"{d[0]},"
 
-        return data
+        return str(res).encode()
     except:
         print("send_query() 오류")
         return None
@@ -33,15 +44,12 @@ def send_query(query):
 def handle_client(client_socket, address):
     print(f"연결: {address}")
     try:
-        while True:
-            cli_data = client_socket.recv(1024).decode()
-            if not cli_data:
-                break
-            print(cli_data)
-            db_data = send_query(cli_data)
-            print(db_data)
+        cli_data = client_socket.recv(1024).decode()
 
-            client_socket.sendall(db_data.encode())
+        print(cli_data)
+        db_data = send_query(cli_data)
+
+        client_socket.sendall(db_data)
     except Exception as e:
         print("에러 발생", e)
     finally:
