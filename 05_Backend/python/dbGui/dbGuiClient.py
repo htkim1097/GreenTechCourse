@@ -2,7 +2,6 @@ import threading
 import tkinter as tk
 from tkinter import ttk, messagebox, simpledialog
 import socket
-import asyncio
 
 DATA_TYPE_LIST = {
     "DB": 0,
@@ -162,19 +161,15 @@ def on_click_btn(data_type, action_type):
             if s != "":
                 send_query(s)
 
-            # delete from 이름 where 조건;
-            query_str = "delete from 테이블이름 where 조건;"
-
 def send_query(query):
     try:
         client_socket.send(query.encode())
-        t1.start()
     except Exception as e:
         print("send_query() 오류", e)
 
 def recv_data():
-    global connected
     while True:
+        global connected
         try:
             if connected:
                 data = client_socket.recv(1024)
@@ -210,11 +205,10 @@ def show_list(data=None):
                 db_list = data
             else:
                 db_list = []
-
             for i, d in enumerate(db_list):
                 if len(db_list) == i + 1:
                     break
-                listbox_db.insert(i, eval(d)[0])
+                listbox_db.insert(i, d)
 
         elif who == DATA_TYPE_LIST["Table"]:
             listbox_table.delete(0, "end")
@@ -228,7 +222,7 @@ def show_list(data=None):
             for i, d in enumerate(data):
                 if len(data) == i + 1:
                     break
-                listbox_table.insert(i, eval(d)[0])
+                listbox_table.insert(i, d)
 
         elif who == DATA_TYPE_LIST["Row"]:
             listbox_row.delete(0, "end")
@@ -247,12 +241,22 @@ def show_list(data=None):
     except Exception as e:
         print("show_list() 오류", e)
 
-def on_select_db(e):
+def on_selected_db(e):
     s = listbox_db.curselection()
     if len(s) > 0:
         send_query(f"use {listbox_db.get(s)}")
         listbox_table.delete(0, "end")
         listbox_row.delete(0, "end")
+        on_click_btn(DATA_TYPE_LIST["Table"], ACTION_TYPE_LIST["조회"])
+
+def on_selected_table(e):
+    s = listbox_table.curselection()
+    if len(s) > 0:
+        listbox_row.delete(0, "end")
+        btn_click_info["who"] = DATA_TYPE_LIST["Row"]
+        btn_click_info["action"] = ACTION_TYPE_LIST["조회"]
+        print(listbox_table.get(s))
+        send_query(f"select * from {listbox_table.get(s)}")
 
 win = tk.Tk()
 win.title("DB Gui")
@@ -275,7 +279,7 @@ port_var = tk.StringVar(value="8080")  # 테스트용
 en_port = tk.Entry(frame_conn, textvariable=port_var)
 en_port.pack(side="left", padx=(5, 0))
 
-btn_conn = tk.Button(frame_conn, text="연결", command=connect_to_server)
+btn_conn = tk.Button(frame_conn, text="연결", command= connect_to_server)
 btn_conn.pack(side="left", padx=(5, 0))
 
 lb_conn_status = tk.Label(frame_conn, text="연결 안됨", foreground="red")
@@ -312,7 +316,7 @@ btn_drop_db.pack(side="right", padx=(5,0))
 
 # DB 리스트 박스
 listbox_db = tk.Listbox(frame_db, bg="lightgray", selectmode="single")
-listbox_db.bind("<<ListboxSelect>>", on_select_db)
+listbox_db.bind("<<ListboxSelect>>", on_selected_db)
 listbox_db.pack(side="bottom", fill="both", expand=True, padx=5, pady=5)
 
 # ---------- 테이블 리스트 박스 
@@ -339,6 +343,7 @@ btn_drop_table.pack(side="right", padx=(5,0))
 
 # 테이블 리스트 박스
 listbox_table = tk.Listbox(frame_table, bg="lightgray", selectmode="single")
+listbox_table.bind("<<ListboxSelect>>", on_selected_table)
 listbox_table.pack(side="bottom", fill="both", expand=True, padx=5, pady=5)
 
 # ---------- 행 데이터 리스트 박스 
@@ -364,11 +369,12 @@ btn_drop_row = tk.Button(frame_row_btns, text="삭제", command=lambda : on_clic
 btn_drop_row.pack(side="right", padx=(5,0))
 
 # 행 리스트 박스
-listbox_row = tk.Listbox(frame_row, bg="lightgray", selectmode="single")
+listbox_row = tk.Listbox(frame_row, bg="lightgray", selectmode="single", height=0)
 listbox_row.pack(side="bottom", fill="both", expand=True, padx=5, pady=5)
 
 if __name__ == "__main__":
     t1 = threading.Thread(target=recv_data)
+    t1.start()
     win.mainloop()
 
     if t1.is_alive():

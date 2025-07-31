@@ -30,3 +30,32 @@
 # t1.start()
 # t2.start()
 # t3.start()
+
+import tkinter as tk
+import threading
+import time
+
+def long_running_task():
+    # 시간이 오래 걸리는 작업 시뮬레이션
+    time.sleep(5)
+    result = "결과 값"
+    root.after(0, update_label, result) # 메인 스레드에서 레이블 업데이트
+
+def update_label(result):
+    label.config(text=f"Result: {result}")
+
+def start_task():
+    # 백그라운드 스레드에서 작업 실행
+    thread = threading.Thread(target=long_running_task)
+    thread.start()
+
+root = tk.Tk()
+root.title("멀티스레딩 예제")
+
+button = tk.Button(root, text="Start Task", command=start_task)
+button.pack()
+
+label = tk.Label(root, text="Result: ")
+label.pack()
+
+root.mainloop()
